@@ -34,13 +34,12 @@ class XooaClient
   # Initializes the XooaClient
   #
   # @return XooaClient
-=begin
   def initialize
     @appUrl = "https://api.xooa.com/api/v1"
     @apiToken = null
     @debugging = false
   end
-=end
+
 
   # Initializes the XooaClient
   #

@@ -1,6 +1,8 @@
 # Xooa Ruby SDK
 
-This repository contains Xooa Ruby SDK to connect with the Xooa Paas.
+The official Xooa SDK for Ruby to connect with the Xooa Paas.
+
+Xooa (pronounced ZUU-ah) is dedicated to making blockchain easy. Focus on business problems, not blockchain problems.
 
 This SDK refers to APIs available for Xooa platform. For more details, refer: <https://api.xooa.com/explorer>
 

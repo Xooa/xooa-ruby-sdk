@@ -1,5 +1,5 @@
 /**
- *  Xooa-Microsoft Get Set Delete blockchain Logger
+ *  Xooa-Ruby Get Set Delete blockchain Logger
  *
  *  Copyright 2018 Xooa
  *
@@ -164,6 +164,11 @@ func (t *SimpleAsset) set(stub shim.ChaincodeStubInterface, args []string) peer.
 		return response
 	}
 
+	err = stub.SetEvent("set", []byte(resultJson))
+	if err != nil {
+		logger.Error("Error occured while calling SetEvent(): ", err)
+	}
+
 	response := shim.Success([]byte(resultJson))
 	response.Status = 200
 	return response
@@ -199,7 +204,7 @@ func (t *SimpleAsset) del(stub shim.ChaincodeStubInterface, args []string) peer.
 	for i := 0; i < len(args); i++ {
 
 		key := args[i]
-		
+
 		logger.Debug(key)
 
 		err := stub.DelState(key)
@@ -221,6 +226,12 @@ func (t *SimpleAsset) del(stub shim.ChaincodeStubInterface, args []string) peer.
 		response := shim.Error("Error occured while marshalling payload to json " + err.Error())
 		response.Status = 400
 		return response
+	}
+
+
+	err = stub.SetEvent("del", []byte(result))
+	if err != nil {
+		logger.Error("Error occured while calling SetEvent(): ", err)
 	}
 
 	response := shim.Success([]byte(result))
@@ -257,7 +268,7 @@ func (t *SimpleAsset) get(stub shim.ChaincodeStubInterface, args []string) peer.
 	for i := 0; i < len(args); i++ {
 
 		key := args[i]
-		
+
 		logger.Debug(key)
 
 		// Get value form the ledger
@@ -273,7 +284,7 @@ func (t *SimpleAsset) get(stub shim.ChaincodeStubInterface, args []string) peer.
 			response := shim.Error("No value found for key " + key)
 			response.Status = 404
 			return response
-		} 
+		}
 
 		if valuesAsBytes == nil {
 
@@ -296,6 +307,12 @@ func (t *SimpleAsset) get(stub shim.ChaincodeStubInterface, args []string) peer.
 		response := shim.Error("Error occured while marshalling payload to json " + err.Error())
 		response.Status = 400
 		return response
+	}
+
+
+	err = stub.SetEvent("get", []byte(resultJson))
+	if err != nil {
+		logger.Error("Error occured while calling SetEvent(): ", err)
 	}
 
 	response := shim.Success(resultJson)

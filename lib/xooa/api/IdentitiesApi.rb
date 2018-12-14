@@ -23,7 +23,6 @@ require 'xooa/exception/XooaRequestTimeoutException'
 require 'xooa/exception/XooaApiException'
 
 module Xooa
-
   module Api
 
     class IdentitiesApi

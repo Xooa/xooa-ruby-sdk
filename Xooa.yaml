@@ -1,6 +1,6 @@
 Apps:
   Xooa-Ruby:
-    Name: Xooa Ruby SDK Sample Smart Contract
+    Name: Xooa Ruby SDK Smart Contract
     Description: Xooa-Ruby SDK Smart Contract is a get-set-del smart contract that can be used to insert, fetch and delete data in Xooa Ledger.
     path: /examples/chaincode/
     language: go

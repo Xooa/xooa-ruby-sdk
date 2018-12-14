@@ -225,14 +225,14 @@ module Xooa
           end
 
           return Xooa::Response::IdentityResponse.new(result['IdentityName'],
-                                                           result['ApiToken'],
-                                                           result['Id'],
-                                                           result['AppId'],
-                                                           result['Access'],
-                                                           result['canManageIdentities'],
-                                                           result['createdAt'],
-                                                           result['updatedAt'],
-                                                           attributesList)
+                                                      result['ApiToken'],
+                                                      result['Id'],
+                                                      result['AppId'],
+                                                      result['Access'],
+                                                      result['canManageIdentities'],
+                                                      result['createdAt'],
+                                                      result['updatedAt'],
+                                                      attributesList)
 
         elsif statusCode == 202
           logger.error response
@@ -294,8 +294,8 @@ module Xooa
           payload = response['result']
 
           return Xooa::Response::CurrentBlockResponse.new(payload['blockNumber'],
-                                                               payload['currentBlockHash'],
-                                                               payload['previousBlockHash'])
+                                                          payload['currentBlockHash'],
+                                                          payload['previousBlockHash'])
 
         elsif statusCode == 202
           logger.error response
@@ -356,9 +356,9 @@ module Xooa
         if statusCode == 200
           payload = response['result']
           return Xooa::Response::BlockResponse.new(payload['previous_hash'],
-                                                        payload['data_hash'],
-                                                        payload['blockNumber'],
-                                                        payload['numberOfTransactions'])
+                                                   payload['data_hash'],
+                                                   payload['blockNumber'],
+                                                   payload['numberOfTransactions'])
 
         elsif statusCode == 202
           logger.error response

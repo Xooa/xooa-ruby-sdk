@@ -10,8 +10,10 @@ Gem::Specification.new do |spec|
   spec.email         = ["kavi.sarna@xooa.com"]
   spec.licenses      = ['Apache-2.0']
   spec.summary       = %q{Xooa Ruby SDK}
-  spec.description   = %q{Xooa Ruby SDK for connecting to Xooa PaaS.}
+  spec.description   = %q{Xooa Ruby SDK for connecting to Xooa Blockchain PaaS.}
   spec.homepage      = "https://github.com/Xooa/xooa-ruby-sdk"
+
+  spec.required_ruby_version = '>= 2.0'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -40,10 +42,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency 'rspec', '~> 3.8'
-  spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency 'webmock', '~> 3.4', '>= 3.4.2'
 
-  spec.add_development_dependency 'rest-client', '~> 2.0', '>= 2.0.2'
   spec.add_development_dependency 'typhoeus', '1.3.1'
   spec.add_development_dependency 'json', '~> 2.1'
   spec.add_development_dependency 'socket.io-client-simple', '~> 1.2', '>= 1.2.1'

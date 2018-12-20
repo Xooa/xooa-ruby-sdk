@@ -168,7 +168,14 @@ RSpec.describe Xooa::Api::IdentitiesApi do
     it 'Test for response of Regenerate Identity Api Token' do
 
       begin
-        identityResponse = @instance.regenerateIdentityApiToken("d0957501-f96b-4068-b54d-31bd474c7dc9", "4000")
+
+        attr = Xooa::Response::Attr.new("Test", "Test", false)
+        attributes = Array.new.push(attr)
+        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+
+        response = @instance.enrollIdentity(identityRequest,"4000")
+
+        identityResponse = @instance.regenerateIdentityApiToken(response.id, "4000")
 
         expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -204,7 +211,14 @@ RSpec.describe Xooa::Api::IdentitiesApi do
     it 'Test for response of Get Identity' do
 
       begin
-        identityResponse = @instance.getIdentity("d0957501-f96b-4068-b54d-31bd474c7dc9", "4000")
+
+        attr = Xooa::Response::Attr.new("Test", "Test", false)
+        attributes = Array.new.push(attr)
+        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+
+        response = @instance.enrollIdentity(identityRequest,"4000")
+
+        identityResponse = @instance.getIdentity(response.id, "4000")
 
         expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -240,7 +254,14 @@ RSpec.describe Xooa::Api::IdentitiesApi do
     it 'Test for response of Delete Identity' do
 
       begin
-        response = @instance.deleteIdentity("90a03607-f5c7-4b52-adc7-9aad04cdda1c", "4000")
+
+        attr = Xooa::Response::Attr.new("Test", "Test", false)
+        attributes = Array.new.push(attr)
+        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+
+        identityResponse = @instance.enrollIdentity(identityRequest,"4000")
+
+        response = @instance.deleteIdentity(identityResponse.id, "4000")
 
         expect(response).to be(true)
 

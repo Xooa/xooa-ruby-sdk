@@ -10,4 +10,6 @@ gemspec
 group :development do
     gem 'rubocop'
     gem 'rubocop-checkstyle_formatter', require: false
+    gem "rspec"
+    gem "rspec_junit_formatter"
 end

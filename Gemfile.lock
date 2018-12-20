@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xooa-sdk (1.0.0)
+    xooa-sdk (1.0.1)
 
 GEM
   remote: https://rubygems.org/gems/xooa-sdk/

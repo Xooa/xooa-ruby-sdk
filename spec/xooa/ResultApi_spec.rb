@@ -16,6 +16,7 @@
 require './spec/spec_helper'
 require 'xooa'
 require 'xooa/api/ResultApi'
+require 'xooa/request/IdentityRequest'
 require 'xooa/response/IdentityResponse'
 require 'xooa/response/InvokeResponse'
 require 'xooa/response/QueryResponse'
@@ -42,7 +43,11 @@ RSpec.describe Xooa::Api::ResultApi do
     it 'Test for response of Result API for Query' do
 
       begin
-        queryResponse = @instance.getResultForQuery("1f4df422-f783-4039-a804-04991d3a38bd", "4000")
+        pendingResponse = @instance.queryAsync("get", ["args1"])
+
+        sleep(4)
+
+        queryResponse = @instance.getResultForQuery(pendingResponse.resultId, "4000")
 
         expect(queryResponse).to be_instance_of(Xooa::Response::QueryResponse)
 
@@ -69,7 +74,11 @@ RSpec.describe Xooa::Api::ResultApi do
     it 'Test for response of Result API for Invoke' do
 
       begin
-        invokeResponse = @instance.getResultForInvoke("61b280e5-8467-4a1d-a292-19425d81ff92", "4000")
+        pendingResponse = @instance.invokeAsync("set", ["args1", "234"])
+
+        sleep(4)
+
+        invokeResponse = @instance.getResultForInvoke(pendingResponse.resultId, "4000")
 
         expect(invokeResponse).to be_instance_of(Xooa::Response::InvokeResponse)
 
@@ -99,7 +108,15 @@ RSpec.describe Xooa::Api::ResultApi do
     it 'Test for response of Result API for Identity' do
 
       begin
-        identityResponse = @instance.getResultForIdentities("1b03e21b-01da-46fd-aa93-fc449cce519f", "4000")
+        attr = Xooa::Response::Attr.new("Test", "Test", false)
+        attributes = Array.new.push(attr)
+        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+
+        pendingResponse = @instance.enrollIdentityAsync(identityRequest)
+
+        sleep(4)
+
+        identityResponse = @instance.getResultForIdentities(pendingResponse.resultId, "4000")
 
         expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -137,7 +154,11 @@ RSpec.describe Xooa::Api::ResultApi do
     it 'Test for response of Result API for Current Block' do
 
       begin
-        currentBlock = @instance.getResultForCurrentBlock("bd7481c6-3914-4095-8c0f-f6e0e89f3598", "4000")
+        pendingResponse = @instance.getCurrentBlockAsync
+
+        sleep(4)
+
+        currentBlock = @instance.getResultForCurrentBlock(pendingResponse.resultId, "4000")
 
         expect(currentBlock).to be_instance_of(Xooa::Response::CurrentBlockResponse)
 
@@ -169,7 +190,12 @@ RSpec.describe Xooa::Api::ResultApi do
     it 'Test for response of Result API for Block Number' do
 
       begin
-        blockResponse = @instance.getResultForBlockByNumber("cc95a5cb-3eeb-49f8-939d-d92622ecb81a", "4000")
+
+        blockData = @instance.getBlockByNumberAsync("10")
+
+        sleep(4)
+
+        blockResponse = @instance.getResultForBlockByNumber(blockData.resultId, "4000")
 
         expect(blockResponse).to be_instance_of(Xooa::Response::BlockResponse)
 

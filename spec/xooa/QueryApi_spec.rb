@@ -65,7 +65,7 @@ RSpec.describe Xooa::Api::QueryApi do
   it 'Test for response on Querying blockchain' do
 
     begin
-      pendingResponse = @instance.invokeAsync("get", ["args1"])
+      pendingResponse = @instance.queryAsync("get", ["args1"])
 
       expect(pendingResponse).to be_instance_of(Xooa::Response::PendingTransactionResponse)
 

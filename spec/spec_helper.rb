@@ -2,6 +2,14 @@ require "bundler/setup"
 #require "./xooa-sdk/lib/xooa/ruby/sdk"
 require "rspec"
 
+require 'simplecov'
+require 'simplecov-rcov'
+SimpleCov.formatters = [
+    SimpleCov::Formatter::RcovFormatter, # Output for Jenkins
+    SimpleCov::Formatter::HTMLFormatter # Output for development environment
+]
+SimpleCov.start 
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"

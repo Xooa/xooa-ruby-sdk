@@ -1,3 +1,6 @@
+
+[![Build Status](http://3.84.45.239:8080/buildStatus/icon?job=xooa-ruby-sdk)](http://3.84.45.239:8080/job/xooa-ruby-sdk/)
+
 # Xooa Ruby SDK
 
 This repository contains Xooa Ruby SDK to connect with the Xooa Blockchain PaaS.

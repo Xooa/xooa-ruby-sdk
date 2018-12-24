@@ -15,29 +15,29 @@
 
 module Xooa
   module Response
-
+    # Response received for async requests
     class PendingTransactionResponse
+      attr_accessor :result_id
 
-      attr_accessor :resultId
-
-      attr_accessor :resultUrl
+      attr_accessor :result_url
 
       # Initialize PendingTransactionResponse
       #
-      # @param resultId result Id for the request in pending state
-      # @param resultUrl result Url for the request in pending state
+      # @param result_id result Id for the request in pending state
+      # @param result_url result Url for the request in pending state
       # @return PendingTransactionResponse
-      def initialize(resultId, resultUrl)
-        @resultId = resultId
-        @resultUrl = resultUrl
+      def initialize(result_id, result_url)
+
+        @result_id = result_id
+        @result_url = result_url
       end
 
       # display the details for the PendingTransactionResponse
       def display
-        puts("Result Id - #{@resultId}")
-        puts("Result Url - #{@resultUrl}")
-      end
 
+        puts('Result Id - #{@result_id}')
+        puts('Result Url - #{@result_url}')
+      end
     end
 
   end

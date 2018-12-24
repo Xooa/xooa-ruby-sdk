@@ -15,28 +15,29 @@
 
 module Xooa
   module Exception
-
+    # Exception thrown for any Exception generated within the sdk
     class XooaApiException < StandardError
+      attr_accessor :error_code
 
-      attr_accessor :errorCode
-
-      attr_accessor :errorMessage
+      attr_accessor :error_message
 
       # Initialize XooaApiException
-      # @param errorCode error code for the exception
-      # @param errorMessage error message for the exception
+      #
+      # @param error_code error code for the exception
+      # @param error_message error message for the exception
       # @return XooaApiException
-      def initialize(errorCode, errorMessage)
-        @errorCode = errorCode
-        @errorMessage = errorMessage
+      def initialize(error_code, error_message)
+
+        @error_code = error_code
+        @error_message = error_message
       end
 
       # display the details for the XooaApiException
       def display
-        puts("Error Code - #{@errorCode}")
-        puts("Error Message - #{@errorMessage}")
-      end
 
+        puts('Error Code - #{@error_code}')
+        puts('Error Message - #{@error_message}')
+      end
     end
 
   end

@@ -19,46 +19,46 @@ require 'xooa/util/Request'
 
 module Xooa
   module Util
-
+    # Socket client to create a subscribe connection
     class XooaSocket
+      attr_accessor :app_url
 
-      attr_accessor :appUrl
-
-      attr_accessor :apiToken
+      attr_accessor :api_token
 
       attr_accessor :socket
 
       # Initialize XooaSocket
-      # @param appUrl app url
-      # @param apiToken API Token for app identity
+      #
+      # @param app_url app url
+      # @param api_token API Token for app identity
       # @return XooaSocket
-      def initialize(appUrl, apiToken)
-        @appUrl = appUrl
-        @apiToken = apiToken
-      end
+      def initialize(app_url, api_token)
 
+        @app_url = app_url
+        @api_token = api_token
+      end
 
       # Subscribe to the events from the App
       #
       # @param callback callback method to be invoked upon an event
-      def subscribeEvents(allback)
+      def subscribe_events(callback)
 
-        url = Xooa::Util::RequestUtil.new.getUrl(appUrl, "/subscribe")
+        url = Xooa::Util::RequestUtil.new.get_url(app_url, '/subscribe')
 
         @socket = SocketIO::Client::Simple.connect url
 
         socket.on :connect do
-          puts("connected")
+          puts('connected')
 
-          socket.emit :authenticate, {:apiToken => apiToken}
+          socket.emit :authenticate, {:api_token => api_token}
         end
 
         socket.on :authenticated do
-          puts("authenticated")
+          puts('authenticated')
         end
 
         socket.on :error do
-          puts("Error")
+          puts('Error')
 
           socket.connect
         end
@@ -69,15 +69,12 @@ module Xooa
 
           callback.call(msg)
         end
-
       end
-
 
       # Unsubscribe from all the events
       def unsubscribe
         socket.disconnect
       end
-
     end
 
   end

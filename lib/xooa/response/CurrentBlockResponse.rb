@@ -15,33 +15,34 @@
 
 module Xooa
   module Response
-
+    # Response received for Current Block Request
     class CurrentBlockResponse
+      attr_accessor :current_block_hash
 
-      attr_accessor :currentBlockHash
+      attr_accessor :previous_block_hash
 
-      attr_accessor :previousBlockHash
-
-      attr_accessor :blockNumber
+      attr_accessor :block_number
 
       # Initialize CurrentBlockResponse
-      # @param blockNumber block number
-      # @param currentBlockHash Hash of the current block
-      # @param previousBlockHash Hash of the previous block
+      #
+      # @param block_number block number
+      # @param current_block_hash Hash of the current block
+      # @param previous_block_hash Hash of the previous block
       # @return CurrentBlockResponse
-      def initialize(blockNumber, currentBlockHash, previousBlockHash)
-        @blockNumber = blockNumber
-        @currentBlockHash = currentBlockHash
-        @previousBlockHash = previousBlockHash
+      def initialize(block_number, current_block_hash, previous_block_hash)
+
+        @block_number = block_number
+        @current_block_hash = current_block_hash
+        @previous_block_hash = previous_block_hash
       end
 
       # display the details for the CurrentBlockResponse
       def display
-        puts("Block Number - #{@blockNumber}")
-        puts("Current Block Hash - #{@currentBlockHash}")
-        puts("Previous Block Hash - #{@previousBlockHash}")
-      end
 
+        puts("Block Number - #{@block_number}")
+        puts("Current Block Hash - #{@current_block_hash}")
+        puts("Previous Block Hash - #{@previous_block_hash}")
+      end
     end
 
   end

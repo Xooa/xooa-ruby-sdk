@@ -17,50 +17,52 @@ require 'xooa/response/IdentityResponse'
 
 module Xooa
   module Request
-
+    # Class to create an Identity request for enrolling a new Identity
     class IdentityRequest
-
-      attr_accessor :identityName
+      attr_accessor :identity_name
 
       attr_accessor :access
 
-      attr_accessor :canManageIdentities
+      attr_accessor :can_manage_identities
 
       attr_accessor :attributes
 
       # Initialize IdentityRequest
-      # @param identityName name of the identity to be created
+      #
+      # @param identity_name name of the identity to be created
       # @param access access privilige to be given to the new identity
-      # @param canManageIdentities permission to manage other identities
+      # @param can_manage_identities permission to manage other identities
       # @param attributes attributes related to the entity
       # @return IdentityRequest
-      def initialize(identityName, access, canManageIdentities, attributes)
-        @identityName = identityName
+      def initialize(identity_name, access, can_manage_identities, attributes)
+
+        @identity_name = identity_name
         @access = access
-        @canManageIdentities = canManageIdentities
+        @can_manage_identities = can_manage_identities
         @attributes = attributes
       end
 
       # convert the request into json form
       # @return identityRequestJson
-      def toJson
-        json = "{\"IdentityName\" : \"" + identityName + "\", \"Access\" : \"" + access.to_s + "\", \"canManageIdentities\" : " + canManageIdentities.to_s + ", \"Attrs\" : [";
+      def to_json
 
-        if attributes.respond_to?("each")
+        json = "{\"IdentityName\" : \"" + identity_name + "\", \"Access\" : \"" + access.to_s + "\", \"canManageIdentities\" : " + can_manage_identities.to_s + ", \"Attrs\" : [";
+
+        if attributes.respond_to?('each')
           attributes.each do |attribute|
-            json += attribute.toJson + ","
+            json += attribute.to_json + ','
           end
-        elsif json += attributes.toJson
+        elsif
+          json += attributes.to_json
         end
 
-        if json.to_s.end_with?(",")
+        if json.to_s.end_with?(',')
           json = json.to_s[0..-2]
         end
 
-        json += "]}"
+        json += ']}'
         json
       end
-
     end
 
   end

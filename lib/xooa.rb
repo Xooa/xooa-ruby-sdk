@@ -24,116 +24,104 @@ require 'xooa/api/ResultApi'
 require 'xooa/util/XooaSocket'
 
 module Xooa
-
+  # Base class for Xooa Sdk which provides all the methods exposed by the sdk.
   class XooaClient
+    attr_accessor :api_token
 
-    attr_accessor :apiToken
-
-    attr_accessor :appUrl
+    attr_accessor :app_url
 
     attr_accessor :debugging
 
-
     # Initializes the XooaClient
     #
+    # @param api_token API Token for the app and the identity
+    # @param app_url URL for the app to invoke
     # @return XooaClient
-    def initialize
-      @appUrl = "https://api.xooa.com/api/v1"
-      @apiToken = null
+    def initialize(api_token = '', app_url = 'https://api.xooa.com/api/v1')
+
+      @api_oken = api_token
+      @app_url = app_url
       @debugging = false
     end
-
-
-    # Initializes the XooaClient
-    #
-    # @param apiToken API Token for the app and the identity
-    # @param appUrl URL for the app to invoke
-    # @return XooaClient
-    def initialize(apiToken, appUrl = "https://api.xooa.com/api/v1")
-      @apiToken = apiToken
-      @appUrl = appUrl
-      @debugging = false
-    end
-
 
     # Validate the appUrl and Api Token
     #
     # @return IdentityResponse
     #
     def validate
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).currentIdentity
-    end
 
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).current_identity
+    end
 
     # Subscribe to all the events from the App
     #
     # @param callback callback method to be invoked upon an event
     def subscribe(callback)
-      block = method(callback)
-      @xooaSocket = Xooa::Util::XooaSocket.new(appUrl, apiToken).subscribeEvents(block)
-    end
 
+      block = method(callback)
+      @xooaSocket = Xooa::Util::XooaSocket.new(app_url, api_token).subscribe_events(block)
+    end
 
     # Unsubscribe from all the events
     def unsubscribe
+
       @xooaSocket.unsubscribe
     end
 
-
     # Use this endpoint to Get the block number and hashes of current (highest) block in the network
     #
     # @param timeout Request timeout in millisecond
     # @return CurrentBlockResponse
-    def getCurrentBlock(timeout = "4000")
-      Xooa::Api::BlockChainApi.new(appUrl, apiToken, debugging).getCurrentBlock(timeout)
-    end
+    def get_current_block(timeout = '4000')
 
+      Xooa::Api::BlockChainApi.new(app_url, api_token, debugging).get_current_block(timeout)
+    end
 
     # Use this endpoint to Get the block number and hashes of current (highest) block in the network
     #
     # @return PendingTransactionResponse
-    def getCurrentBlockAsync
-      Xooa::Api::BlockChainApi.new(appUrl, apiToken, debugging).getCurrentBlockAsync
-    end
+    def get_current_block_async
 
+      Xooa::Api::BlockChainApi.new(app_url, api_token, debugging).get_current_block_async
+    end
 
     # Use this endpoint to Get the number of transactions and hashes of a specific block in the network
     #
-    # @param blockNumber block number for which data is required
+    # @param block_number block number for which data is required
     # @param timeout Request timeout in millisecond
     # @return BlockResponse
-    def getBlockByNumber(blockNumber, timeout = "4000")
-      Xooa::Api::BlockChainApi.new(appUrl, apiToken, debugging).getBlockByNumber(blockNumber, timeout)
-    end
+    def get_block_by_number(block_number, timeout = '4000')
 
+      Xooa::Api::BlockChainApi.new(app_url, api_token, debugging).get_block_by_number(block_number, timeout)
+    end
 
     # Use this endpoint to Get the number of transactions and hashes of a specific block in the network
     #
-    # @param blockNumber block number for which data is required
+    # @param block_number block number for which data is required
     # @return PendingTransactionResponse
-    def getBlockByNumberAsync(blockNumber)
-      Xooa::Api::BlockChainApi.new(appUrl, apiToken, debugging).getBlockByNumberAsync(blockNumber)
-    end
+    def get_block_by_number_async(block_number)
 
+      Xooa::Api::BlockChainApi.new(app_url, api_token, debugging).get_block_by_number_async(block_number)
+    end
 
     # Use this endpoint to Get transaction by transaction id
     #
-    # @param transactionId transactionId from a previous transaction
+    # @param transaction_id transactionId from a previous transaction
     # @param timeout Request timeout in millisecond
     # @return TransactionResponse
-    def getTransactionByTransactionId(transactionId, timeout = "4000")
-      Xooa::Api::BlockChainApi.new(appUrl, apiToken, debugging).getTransactionByTransactionId(transactionId, timeout)
-    end
+    def get_transaction_by_transaction_id(transaction_id, timeout = '4000')
 
+      Xooa::Api::BlockChainApi.new(app_url, api_token, debugging).get_transaction_by_transaction_id(transaction_id, timeout)
+    end
 
     # Use this endpoint to Get transaction by transaction id
     #
-    # @param transactionId transactionId from a previous transaction
+    # @param transaction_id transactionId from a previous transaction
     # @return PendingTransactionResponse
-    def getTransactionByTransactionIdAsync(transactionId)
-      Xooa::Api::BlockChainApi.new(appUrl, apiToken, debugging).getTransactionByTransactionIdAsync(transactionId)
-    end
+    def get_transaction_by_transaction_id_async(transaction_id)
 
+      Xooa::Api::BlockChainApi.new(app_url, api_token, debugging).get_transaction_by_transaction_id_async(transaction_id)
+    end
 
     # The invoke API endpoint is used for submitting transaction for processing by the blockchain smart contract app
     # when the transaction payload need to be persisted into the Ledger (new block is mined).
@@ -147,14 +135,14 @@ module Xooa
     # the API gateway will return http-status-code 500 to the client app.
     # The payload of Invoke Transaction Response in case of final response is determined by the smart contract app.
     #
-    # @param functionName Name of the smart contract function to be invoked
+    # @param function_name Name of the smart contract function to be invoked
     # @param args the arguments to be passed to the smart contract
     # @param timeout Request timeout in millisecond
     # @return InvokeResponse
-    def invoke(functionName, args, timeout = "4000")
-      Xooa::Api::InvokeApi.new(appUrl, apiToken, debugging).invoke(functionName, args, timeout)
-    end
+    def invoke(function_name, args, timeout = '4000')
 
+      Xooa::Api::InvokeApi.new(app_url, api_token, debugging).invoke(function_name, args, timeout)
+    end
 
     # The invoke API endpoint is used for submitting transaction for processing by the blockchain smart contract app
     # when the transaction payload need to be persisted into the Ledger (new block is mined).
@@ -168,13 +156,13 @@ module Xooa
     # the API gateway will return http-status-code 500 to the client app.
     # The payload of Invoke Transaction Response in case of final response is determined by the smart contract app.
     #
-    # @param functionName Name of the smart contract function to be invoked
+    # @param function_name Name of the smart contract function to be invoked
     # @param args the arguments to be passed to the smart contract
     # @return PendingTransactionResponse
-    def invokeAsync(functionName, args)
-      Xooa::Api::InvokeApi.new(appUrl, apiToken, debugging).invokeAsync(functionName, args)
-    end
+    def invoke_async(function_name, args)
 
+      Xooa::Api::InvokeApi.new(app_url, api_token, debugging).invoke_async(function_name, args)
+    end
 
     # The query API endpoint is used for querying (reading) a blockchain ledger using smart contract function.
     # The endpoint must call a function already defined in your smart contract app which will process the query request.
@@ -186,14 +174,14 @@ module Xooa
     # the API gateway will return http-status-code 500 to the client app.
     # For example, if testing the sample get-set smart contract app, enter ‘get’ (without quotes) as the value for fcn.
     #
-    # @param functionName Name of the smart contract function to be invoked
+    # @param function_name Name of the smart contract function to be invoked
     # @param args the arguments to be passed to the smart contract
     # @param timeout Request timeout in millisecond
     # @return QueryResponse
-    def query(functionName, args, timeout = "4000")
-      Xooa::Api::QueryApi.new(appUrl, apiToken, debugging).query(functionName, args, timeout)
-    end
+    def query(function_name, args, timeout = '4000')
 
+      Xooa::Api::QueryApi.new(app_url, api_token, debugging).query(function_name, args, timeout)
+    end
 
     # The query API endpoint is used for querying (reading) a blockchain ledger using smart contract function.
     # The endpoint must call a function already defined in your smart contract app which will process the query request.
@@ -205,92 +193,92 @@ module Xooa
     # the API gateway will return http-status-code 500 to the client app.
     # For example, if testing the sample get-set smart contract app, enter ‘get’ (without quotes) as the value for fcn.
     #
-    # @param functionName Name of the smart contract function to be invoked
+    # @param function_name Name of the smart contract function to be invoked
     # @param args the arguments to be passed to the smart contract
     # @return PendingTransactionResponse
-    def queryAsync(functionName, args)
-      Xooa::Api::QueryApi.new(appUrl, apiToken, debugging).queryAsync(functionName, args)
-    end
+    def query_async(function_name, args)
 
+      Xooa::Api::QueryApi.new(app_url, api_token, debugging).query_async(function_name, args)
+    end
 
     # This endpoint returns the result of previously submitted api request.
     #
-    # @param resultId Returned in previous Query/Invoke/Participant Operation
+    # @param result_id Returned in previous Query/Invoke/Participant Operation
     # @param timeout Request timeout in millisecond
     # @return QueryResponse
-    def getResultForQuery(resultId, timeout = "4000")
-      Xooa::Api::ResultApi.new(appUrl, apiToken, debugging).getResultForQuery(resultId, timeout)
-    end
+    def get_result_for_query(result_id, timeout = '4000')
 
+      Xooa::Api::ResultApi.new(app_url, api_token, debugging).get_result_for_query(result_id, timeout)
+    end
 
     # This endpoint returns the result of previously submitted api request.
     #
-    # @param resultId Returned in previous Query/Invoke/Participant Operation
+    # @param result_id Returned in previous Query/Invoke/Participant Operation
     # @param timeout Request timeout in millisecond
     # @return InvokeResponse
-    def getResultForInvoke(resultId, timeout = "4000")
-      Xooa::Api::ResultApi.new(appUrl, apiToken, debugging).getResultForInvoke(resultId, timeout)
-    end
+    def get_result_for_invoke(result_id, timeout = '4000')
 
+      Xooa::Api::ResultApi.new(app_url, api_token, debugging).get_result_for_invoke(result_id, timeout)
+    end
 
     # This endpoint returns the result of previously submitted api request.
     #
-    # @param resultId Returned in previous Query/Invoke/Participant Operation
+    # @param result_id Returned in previous Query/Invoke/Participant Operation
     # @param timeout Request timeout in millisecond
     # @return IdentityResponse
-    def getResultForIdentities(resultId, timeout = "4000")
-      Xooa::Api::ResultApi.new(appUrl, apiToken, debugging).getResultForIdentity(resultId, timeout)
-    end
+    def get_result_for_identities(result_id, timeout = '4000')
 
+      Xooa::Api::ResultApi.new(app_url, api_token, debugging).get_result_for_identity(result_id, timeout)
+    end
 
     # This endpoint returns the result of previously submitted api request.
     #
-    # @param resultId Returned in previous Query/Invoke/Participant Operation
+    # @param result_id Returned in previous Query/Invoke/Participant Operation
     # @param timeout Request timeout in millisecond
     # @return CurrentBlockResponse
-    def getResultForCurrentBlock(resultId, timeout = "4000")
-      Xooa::Api::ResultApi.new(appUrl, apiToken, debugging).getResultForCurrentBlock(resultId, timeout)
-    end
+    def get_result_for_current_block(result_id, timeout = '4000')
 
+      Xooa::Api::ResultApi.new(app_url, api_token, debugging).get_result_for_current_block(result_id, timeout)
+    end
 
     # This endpoint returns the result of previously submitted api request.
     #
-    # @param resultId Returned in previous Query/Invoke/Participant Operation
+    # @param result_id Returned in previous Query/Invoke/Participant Operation
     # @param timeout Request timeout in millisecond
     # @return BlockResponse
-    def getResultForBlockByNumber(resultId, timeout = "4000")
-      Xooa::Api::ResultApi.new(appUrl, apiToken, debugging).getResultForBlockByNumber(resultId, timeout)
-    end
+    def get_result_for_block_by_number(result_id, timeout = '4000')
 
+      Xooa::Api::ResultApi.new(app_url, api_token, debugging).get_result_for_block_by_number(result_id, timeout)
+    end
 
     # This endpoint returns the result of previously submitted api request.
     #
-    # @param resultId Returned in previous Query/Invoke/Participant Operation
+    # @param result_id Returned in previous Query/Invoke/Participant Operation
     # @param timeout Request timeout in millisecond
     # @return TransactionResponse
-    def getResultForTransaction(resultId, timeout = "4000")
-      Xooa::Api::ResultApi.new(appUrl, apiToken, debugging).getResultForTransaction(resultId, timeout)
-    end
+    def get_result_for_transaction(result_id, timeout = '4000')
 
+      Xooa::Api::ResultApi.new(app_url, api_token, debugging).get_result_for_transaction(result_id, timeout)
+    end
 
     # This endpoint returns authenticated identity information
     #
     # @param timeout Request timeout in millisecond
     # @return IdentityResponse
-    def currentIdentity(timeout = "4000")
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).currentIdentity(timeout)
-    end
+    def current_identity(timeout = '4000')
 
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).current_identity(timeout)
+    end
 
     # Get all identities from the identity registry
     # Required permission: manage identities (canManageIdentities=true)
     #
     # @param timeout Request timeout in millisecond
     # @return Array[IdentityResponse]
-    def getIdentities(timeout = "4000")
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).getIdentities(timeout)
-    end
+    def get_identities(timeout = '4000')
 
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).get_identities(timeout)
+    end
 
     # The Enroll identity endpoint is used to enroll new identities for the smart contract app.
     # A success response includes the API Token generated for the identity.
@@ -299,13 +287,13 @@ module Xooa
     # and identities added using this endpoint will appear, and can be managed, using Xooa console under the identities tab of the smart contract app
     # Required permission: manage identities (canManageIdentities=true)
     #
-    # @param identityRequest Identity Request data to create a new identity
+    # @param identity_request Identity Request data to create a new identity
     # @param timeout Request timeout in millisecond
     # @return IdentityResponse
-    def enrollIdentity(identityRequest, timeout = "4000")
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).enrollIdentity(identityRequest, timeout)
-    end
+    def enroll_identity(identity_request, timeout = '4000')
 
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).enroll_identity(identity_request, timeout)
+    end
 
     # The Enroll identity endpoint is used to enroll new identities for the smart contract app.
     # A success response includes the API Token generated for the identity.
@@ -314,45 +302,44 @@ module Xooa
     # and identities added using this endpoint will appear, and can be managed, using Xooa console under the identities tab of the smart contract app
     # Required permission: manage identities (canManageIdentities=true)
     #
-    # @param identityRequest Identity Request data to create a new identity
+    # @param identity_request Identity Request data to create a new identity
     # @return PendingTransactionResponse
-    def enrollIdentityAsync(identityRequest)
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).enrollIdentityAsync(identityRequest)
-    end
+    def enroll_identity_async(identity_request)
 
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).enroll_identity_async(identity_request)
+    end
 
     # Generates new identity API Token
     # Required permission: manage identities (canManageIdentities=true)
     #
-    # @param identityId Identity id for which to create a new API Token
+    # @param identity_id Identity id for which to create a new API Token
     # @param timeout Request timeout in millisecond
     # @return IdentityResponse
-    def regenerateIdentityApiToken(identityId, timeout = "4000")
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).regenerateIdentityApiToken(identityId, timeout)
-    end
+    def regenerate_identity_api_token(identity_id, timeout = '4000')
 
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).regenerate_identity_api_token(identity_id, timeout)
+    end
 
     # Get the specified identity from the identity registry.
     # Required permission: manage identities (canManageIdentities=true)
     #
-    # @param identityId Identity id for which to find the Identity details
+    # @param identity_id Identity id for which to find the Identity details
     # @param timeout Request timeout in millisecond
     # @return IdentityResponse
-    def getIdentity(identityId, timeout = "4000")
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).getIdentity(identityId, timeout)
-    end
+    def get_identity(identity_id, timeout = '4000')
 
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).get_identity(identity_id, timeout)
+    end
 
     # Deletes an identity.
     # Required permission: manage identities (canManageIdentities=true)
     #
-    # @param identityId Identity id for which to delete the Identity details
+    # @param identity_id Identity id for which to delete the Identity details
     # @param timeout Request timeout in millisecond
     # @return boolean
-    def deleteIdentity(identityId, timeout = "4000")
-      Xooa::Api::IdentitiesApi.new(appUrl, apiToken, debugging).deleteIdentity(identityId, timeout)
+    def delete_identity(identity_id, timeout = '4000')
+
+      Xooa::Api::IdentitiesApi.new(app_url, api_token, debugging).delete_identity(identity_id, timeout)
     end
-
   end
-
 end

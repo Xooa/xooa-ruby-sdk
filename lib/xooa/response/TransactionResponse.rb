@@ -15,92 +15,93 @@
 
 module Xooa
   module Response
-
+    # Response received for transaction request
     class TransactionResponse
+      attr_accessor :transaction_id
 
-      attr_accessor :transactionId
+      attr_accessor :created_at
 
-      attr_accessor :createdAt
+      attr_accessor :smart_contract
 
-      attr_accessor :smartContract
+      attr_accessor :creator_msp_id
 
-      attr_accessor :creatorMspId
+      attr_accessor :endorser_msp_id
 
-      attr_accessor :endorserMspId
+      attr_accessor :transaction_type
 
-      attr_accessor :transactionType
+      attr_accessor :read_set
 
-      attr_accessor :readSet
-
-      attr_accessor :writeSet
+      attr_accessor :write_set
 
       # Initialize TransactionResponse
-      def initialize(transactionId, smartContract, creatorMspId, endorserMspId, transactionType, createdAt, readSet, writeSet)
-        @transactionId = transactionId
-        @smartContract = smartContract
-        @creatorMspId = creatorMspId
-        @endorserMspId = endorserMspId
-        @transactionType = transactionType
-        @createdAt = createdAt
-        @readSet = readSet
-        @writeSet = writeSet
+      def initialize(transaction_id, smart_contract, creator_msp_id, endorser_msp_id, transaction_type, created_at, read_set, write_set)
+
+        @transaction_id = transaction_id
+        @smart_contract = smart_contract
+        @creator_msp_id = creator_msp_id
+        @endorser_msp_id = endorser_msp_id
+        @transaction_type = transaction_type
+        @created_at = created_at
+        @read_set = read_set
+        @write_set = write_set
       end
 
       #display TransactionResponse
       def display
-        puts("Transaction Id - #{@transactionId}")
-        puts("Smart Contract - #{@smartContract}")
-        puts("Creator MSP Id - #{@creatorMspId}")
-        puts("Type - #{@transactionType}")
-        puts("Created At - #{@createdAt}")
 
-        puts("Endorser MSP ID -")
-        if @endorserMspId.respond_to?("each")
-          @endorserMspId.each do |id|
-            puts("\t  #{id}")
+        puts('Transaction Id - #{@transaction_id}')
+        puts('Smart Contract - #{@smart_contract}')
+        puts('Creator MSP Id - #{@creator_msp_id}')
+        puts('Type - #{@transaction_type}')
+        puts('Created At - #{@created_at}')
+
+        puts('Endorser MSP ID -')
+        if @endorser_msp_id.respond_to?('each')
+          @endorser_msp_id.each do |id|
+            puts('\t  #{id}')
           end
         end
 
-        puts("ReadSet -")
-        if @readSet.respond_to?("each")
-          @readSet.each do |set|
+        puts('ReadSet -')
+        if @read_set.respond_to?('each')
+          @read_set.each do |set|
             set.display
           end
         else
-          @readSet.display
+          @read_set.display
         end
 
-        puts("WriteSet -")
-        if @writeSet.respond_to?("each")
-          @writeSet.each do |set|
+        puts('WriteSet -')
+        if @write_set.respond_to?('each')
+          @write_set.each do |set|
             set.display
           end
         else
-          @writeSet.display
+          @write_set.display
         end
       end
-
     end
 
-
+    # Read set for transaction
     class ReadSet
-
       attr_accessor :chaincode
 
       attr_accessor :sets
 
       # Initialize ReadSet
       def initialize(chaincode, sets)
+
         @chaincode = chaincode
         @sets = sets
       end
 
       # display read set details
       def display
-        puts("\t Chaincode - #{@chaincode}")
-        puts("\t Sets -")
 
-        if @sets.respond_to?("each")
+        puts('\t Chaincode - #{@chaincode}')
+        puts('\t Sets -')
+
+        if @sets.respond_to?('each')
           @sets.each do |set|
             set.display
           end
@@ -108,105 +109,101 @@ module Xooa
           @sets.display
         end
       end
-
     end
 
-
+    #Read sub sets for Read set
     class ReadSubSet
-
       attr_accessor :key
 
       attr_accessor :version
 
       # Initialize ReadSubSet
       def initialize(key, version)
+
         @key = key
         @version = version
       end
 
       # display the read sub set
       def display
-        puts("\t\t Key - #{@key}")
-        puts("\t\t Version -")
+
+        puts('\t\t Key - #{@key}')
+        puts('\t\t Version -')
         version.display
       end
-
     end
 
-
+    # Version details for Read Sub set
     class Version
+      attr_accessor :block_number
 
-      attr_accessor :blockNumber
-
-      attr_accessor :transactionNumber
+      attr_accessor :transaction_number
 
       # Initialize Version
-      def initialize(blockNumber, transactionNumber)
-        @blockNumber = blockNumber
-        @transactionNumber = transactionNumber
+      def initialize(block_number, transaction_number)
+
+        @block_number = block_number
+        @transaction_number = transaction_number
       end
 
       # display version details
       def display
-        puts("\t\t\t Block Number - #{@blockNumber}")
-        puts("\t\t\t Transaction Number - #{@transactionNumber}")
-      end
 
+        puts('\t\t\t Block Number - #{@block_number}')
+        puts('\t\t\t Transaction Number - #{@transaction_number}')
+      end
     end
 
-
+    # Write set for transaction response
     class WriteSet
-
       attr_accessor :chaincode
 
       attr_accessor :sets
 
       # Initialize WriteSet
       def initialize(chaincode, sets)
+
         @chaincode = chaincode
         @sets = sets
       end
 
       # display the WriteSet
       def display
-        puts("\t Chaincode - #{@chaincode}")
-        puts("\t Sets -")
+        puts('\t Chaincode - #{@chaincode}')
+        puts('\t Sets -')
 
-        if @sets.respond_to?("each")
+        if @sets.respond_to?('each')
           @sets.each do |set|
             set.display
           end
         else
           @sets.display
         end
-
       end
-
     end
 
-
+    # Write Sub Set for Write Set
     class WriteSubSet
-
       attr_accessor :key
 
       attr_accessor :value
 
-      attr_accessor :isDelete
+      attr_accessor :is_delete
 
       # Initialize WriteSubSet
-      def initialize(key, value, isDelete)
+      def initialize(key, value, is_delete)
+
         @key = key
         @value = value
-        @isDelete = isDelete
+        @is_delete = is_delete
       end
 
       # display the WriteSubSet
       def display
-        puts("\t\t Key - #{@key}")
-        puts("\t\t Value - #{@value}")
-        puts("\t\t Is Deleted - #{@isDelete}")
+        puts('\t\t Key - #{@key}')
+        puts('\t\t Value - #{@value}')
+        puts('\t\t Is Deleted - #{@is_delete}')
       end
-
     end
 
   end

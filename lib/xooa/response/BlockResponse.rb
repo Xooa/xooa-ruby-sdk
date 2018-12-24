@@ -15,39 +15,39 @@
 
 module Xooa
   module Response
-
+    # Response received for a Block request
     class BlockResponse
+      attr_accessor :previous_hash
 
-      attr_accessor :previousHash
+      attr_accessor :data_hash
 
-      attr_accessor :dataHash
+      attr_accessor :block_number
 
-      attr_accessor :blockNumber
-
-      attr_accessor :numberOfTransactions
+      attr_accessor :number_of_transactions
 
       # Initialize BlockResponse
-      # @param previousHash Hash of the previous block
-      # @param dataHash Hash of the data present in the block
-      # @param blockNumber block number
-      # @param numberOfTransactions number of transactions in the block
+      #
+      # @param previous_hash Hash of the previous block
+      # @param data_hash Hash of the data present in the block
+      # @param block_number block number
+      # @param number_of_transactions number of transactions in the block
       # @return BlockResponse
-      def initialize(previousHash, dataHash, blockNumber, numberOfTransactions)
-        @previousHash = previousHash
-        @dataHash = dataHash
-        @blockNumber = blockNumber
-        @numberOfTransactions = numberOfTransactions
-      end
+      def initialize(previous_hash, data_hash, block_number, number_of_transactions)
 
+        @previous_hash = previous_hash
+        @data_hash = data_hash
+        @block_number = block_number
+        @number_of_transactions = number_of_transactions
+      end
 
       # display the details for the BlockResponse
       def display
-        puts("Block Number - #{@blockNumber}")
-        puts("Number of Transactions - #{@numberOfTransactions}")
-        puts("Data Hash - #{@dataHash}")
-        puts("Previous Hash - #{@previousHash}")
-      end
 
+        puts("Block Number - #{@block_mumber}")
+        puts("Number of Transactions - #{@number_of_transactions}")
+        puts("Data Hash - #{@data_hash}")
+        puts("Previous Hash - #{@previous_hash}")
+      end
     end
 
   end

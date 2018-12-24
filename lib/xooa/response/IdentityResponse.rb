@@ -15,64 +15,70 @@
 
 module Xooa
   module Response
-
+    # Response received for Identity Request
     class IdentityResponse
-
-      attr_accessor :identityName
+      attr_accessor :identity_name
 
       attr_accessor :access
 
-      attr_accessor :canManageIdentities
+      attr_accessor :can_manage_identities
 
-      attr_accessor :createdAt
+      attr_accessor :created_at
 
-      attr_accessor :updatedAt
+      attr_accessor :updated_at
 
-      attr_accessor :apiToken
+      attr_accessor :api_token
 
       attr_accessor :id
 
-      attr_accessor :appId
+      attr_accessor :app_id
 
       attr_accessor :attributes
 
+      attr_accessor :app_name
+
       # Initialize IdentityResponse
       #
-      # @param identityName name for the identity
-      # @param apiToken API Token for the identity
+      # @param identity_name name for the identity
+      # @param app_name app name to which the identity belongs
+      # @param api_token API Token for the identity
       # @param id id for the identity
-      # @param appId app id to which the identity belongs
+      # @param app_id app id to which the identity belongs
       # @param access access permissions for the identity
-      # @param canManageIdentities permission to manage other identities
-      # @param createdAt the timestamp when the identity was created
-      # @param updatedAt the timestamp when the identity was last updated
+      # @param can_manage_identities permission to manage other identities
+      # @param created_at the timestamp when the identity was created
+      # @param updated_at the timestamp when the identity was last updated
       # @param attributes list of attributes for the identity
       # @return IdentityResponse
-      def initialize(identityName, apiToken, id, appId, access, canManageIdentities, createdAt, updatedAt, attributes)
-        @identityName = identityName
-        @apiToken = apiToken
+      def initialize(identity_name, app_name, api_token, id, app_id, access, can_manage_identities, created_at, updated_at, attributes)
+
+        @identity_name = identity_name
+        @app_name = app_name
+        @api_token = api_token
         @id = id
-        @appId = appId
+        @app_id = app_id
         @access = access
-        @canManageIdentities = canManageIdentities
-        @createdAt = createdAt
-        @updatedAt = updatedAt
+        @can_manage_identities = can_manage_identities
+        @created_at = created_at
+        @updated_at = updated_at
         @attributes = attributes
       end
 
       # display the details for the IdentityResponse
       def display
-        puts("Identity Name - #{@identityName}")
-        puts("API Token - #{@apiToken}")
-        puts("Id - #{@id}")
-        puts("App Id - #{@appId}")
-        puts("Access - #{@access}")
-        puts("Can Manage Identities - #{@canManageIdentities}")
-        puts("createdAt - #{@createdAt}")
-        puts("UpdatedAt - #{@updatedAt}")
-        puts("Attributes - ")
 
-        if @attributes.respond_to?("each")
+        puts('Identity Name - #{@identity_name}')
+        puts('App Name - #{@app_name}')
+        puts('API Token - #{@api_token}')
+        puts('Id - #{@id}')
+        puts('App Id - #{@app_id}')
+        puts('Access - #{@access}')
+        puts('Can Manage Identities - #{@can_manage_identities}')
+        puts('createdAt - #{@created_at}')
+        puts('UpdatedAt - #{@updated_at}')
+        puts('Attributes - ')
+
+        if @attributes.respond_to?('each')
           @attributes.each do |attribute|
             attribute.display
           end
@@ -80,18 +86,15 @@ module Xooa
           attributes.display
         end
       end
-
     end
 
-
+    # Attributes for the identity
     class Attr
-
       attr_accessor :name
 
       attr_accessor :value
 
       attr_accessor :ecert
-
 
       # Initialize Attr
       #
@@ -100,6 +103,7 @@ module Xooa
       # @param ecert if the attribute requires ecert
       # @return Attr
       def initialize(name, value, ecert)
+
         @name = name
         @value = value
         @ecert = ecert
@@ -107,17 +111,17 @@ module Xooa
 
       # display the details for the Attr
       def display
-        puts("\t Name - #{@name}")
-        puts("\t Value - #{@value}")
-        puts("\t Ecert - #{@ecert}")
+
+        puts('\t Name - #{@name}')
+        puts('\t Value - #{@value}')
+        puts('\t Ecert - #{@ecert}')
       end
 
       # convert the request into json form
       # @return attrJson
-      def toJson
+      def to_json
         json = "{\"name\" : \"" + name + "\", \"ecert\" : " + ecert.to_s + ", \"value\" : \"" + value + "\"}"
       end
-
     end
 
   end

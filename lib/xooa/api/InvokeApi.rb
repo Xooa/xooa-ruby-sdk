@@ -25,20 +25,25 @@ require 'xooa/exception/XooaApiException'
 
 module Xooa
   module Api
-
+    # Class to provide methods for connecting to Invoke Api
     class InvokeApi
-
       attr_accessor :requestUtil
 
       attr_accessor :logger
 
       attr_accessor :debugging
 
-      def initialize(appUrl, apiToken, debugging)
+      # Initializes the InvokeApi
+      #
+      # @param app_url URL for the app to invoke
+      # @param api_token API Token for the app and the identity
+      # @param debugging debug tag
+      # @return InvokeApi
+      def initialize(app_url, api_token, debugging)
 
-        @appUrl = appUrl
-        @apiToken = apiToken
-        @requestUtil = Xooa::Util::RequestUtil.new
+        @app_url = app_url
+        @api_token = api_token
+        @request_util = Xooa::Util::RequestUtil.new
         @logger = Logger.new(STDOUT)
         @debugging = debugging
       end
@@ -57,54 +62,55 @@ module Xooa
       #
       # The payload of Invoke Transaction Response in case of final response is determined by the smart contract app.
       #
-      # @param functionName Name of the smart contract function to be invoked
+      # @param function_name Name of the smart contract function to be invoked
       # @param args the arguments to be passed to the smart contract
       # @param timeout Request timeout in millisecond
       # @return InvokeResponse
-      def invoke (functionName, args, timeout = "4000")
+      def invoke (function_name, args, timeout = '4000')
 
-        path = "/invoke/{fcn}".sub('{' + 'fcn' + '}', functionName.to_s)
+        path = '/invoke/{fcn}'.sub('{' + 'fcn' + '}', function_name.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = "["
+        post_body = '['
 
-        if args.respond_to?("each")
+        if args.respond_to?('each')
           args.each do |argument|
 
-            postBody += "\"" + argument + "\", "
+            post_body += "\"" + argument + "\", "
 
           end
         elsif args.nil?
-          postBody = nil
-        elsif postBody += "\"" + args + "\", "
+          post_body = nil
+        elsif
+          post_body += "\"" + args + "\", "
         end
 
-        if !postBody.nil?
-          postBody = postBody[0..(postBody.size - 3)] + "]"
+        if !post_body.nil?
+          post_body = post_body[0..(post_body.size - 3)] + "]"
         end
 
         begin
-          request = requestUtil.buildRequest(url, 'POST', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'POST', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{statusCode}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -116,16 +122,16 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
           return Xooa::Response::InvokeResponse.new(response['txId'], response['payload'])
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
@@ -142,53 +148,54 @@ module Xooa
       # the API gateway will return http-status-code 500 to the client app.
       # The payload of Invoke Transaction Response in case of final response is determined by the smart contract app.
       #
-      # @param functionName Name of the smart contract function to be invoked
+      # @param function_name Name of the smart contract function to be invoked
       # @param args the arguments to be passed to the smart contract
       # @return PendingTransactionResponse
-      def invokeAsync(functionName, args)
+      def invoke_async(function_name, args)
 
-        path = "/invoke/{fcn}".sub('{' + 'fcn' + '}', functionName.to_s)
+        path = '/invoke/{fcn}'.sub('{' + 'fcn' + '}', function_name.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'true'
+        query_params = {}
+        query_params[:'async'] = 'true'
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = "["
+        post_body = '['
 
-        if args.respond_to?("each")
+        if args.respond_to?('each')
           args.each do |argument|
 
-            postBody += "\"" + argument + "\", "
+            post_body += "\"" + argument + "\", "
 
           end
         elsif args.nil?
-          postBody = nil
+          post_body = nil
 
-        elsif postBody += "\"" + args + "\", "
+        elsif
+          post_body += "\"" + args + "\", "
         end
 
-        if !postBody.nil?
-          postBody = postBody[0..(postBody.size - 3)] + "]"
+        if !post_body.nil?
+          post_body = post_body[0..(post_body.size - 3)] + "]"
         end
 
         begin
-          request = requestUtil.buildRequest(url, 'POST', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'POST', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -200,11 +207,11 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 202
+        if status_code == 202
           return Xooa::Response::PendingTransactionResponse.new(response['resultId'], response['resultURL'])
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 

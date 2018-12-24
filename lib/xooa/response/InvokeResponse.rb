@@ -15,29 +15,29 @@
 
 module Xooa
   module Response
-
+    # Response received for Invoke request
     class InvokeResponse
-
-      attr_accessor :txnId
+      attr_accessor :txn_id
 
       attr_accessor :payload
 
       # Initialize InvokeResponse
       #
-      # @param txnId transaction Id for the invoke request
+      # @param txn_id transaction Id for the invoke request
       # @param payload payload inserted into the blockchain in the transaction
       # @return InvokeResponse
-      def initialize(txnId, payload)
-        @txnId = txnId
+      def initialize(txn_id, payload)
+
+        @txn_id = txn_id
         @payload = payload
       end
 
       # display the details for the InvokeResponse
       def display
-        puts("Transaction Id - #{@txnId}")
+
+        puts("Transaction Id - #{@txn_id}")
         puts("Payload - #{@payload}")
       end
-
     end
 
   end

@@ -1,4 +1,5 @@
 require 'xooa'
+require 'xooa/request/IdentityRequest'
 
 if __FILE__ == $0
   client = Xooa::XooaClient.new("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcGlLZXkiOiI3MlQ3WjRBLUFNUE1ER0ctTkhKMlMxUi1CRDJZTkpKIiwiQXBpU2VjcmV0IjoiMEk3WjFRU1NHblZ3WVhnIiwiUGFzc3BocmFzZSI6IjM3ZGJmYmI3YmM0NTE0NTBjODIyODg0NTM5YTQ3ZTY5IiwiaWF0IjoxNTQ0NzgzMzIwfQ.pcOdvHM0KTzf_b0vZoReSwsSM3SYicAOMSgacfy-mVg")
@@ -13,12 +14,6 @@ if __FILE__ == $0
 
     puts()
 
-    puts("----- Current Block -----")
-
-    client.getCurrentBlock.display
-
-    puts()
-
     puts("----- Current Blcok Async -----")
 
     pendingCurrentBlock = client.getCurrentBlockAsync
@@ -26,16 +21,15 @@ if __FILE__ == $0
 
     puts()
 
-    puts("----- Pending current block details -----")
+    puts("----- Current Block -----")
 
-    client.getResultForCurrentBlock(pendingCurrentBlock.resultId).display
+    client.getCurrentBlock.display
 
     puts()
 
+    puts("----- Pending current block details -----")
 
-    puts("----- Block By Number -----")
-
-    client.getBlockByNumber(4).display
+    client.getResultForCurrentBlock(pendingCurrentBlock.resultId).display
 
     puts()
 
@@ -46,10 +40,15 @@ if __FILE__ == $0
 
     puts()
 
+    puts("----- Block By Number -----")
+
+    client.getBlockByNumber(4).display
+
+    puts()
+
     puts("----- Pending Block Response -----")
 
     client.getResultForBlockByNumber(pendingBlockResponse.resultId).display
-
 
     puts("----- Current Identity -----")
 
@@ -57,14 +56,13 @@ if __FILE__ == $0
 
     puts()
 
-
     puts("----- New Identity Async -----")
 
     attr1 = Xooa::Response::Attr.new('Kavi', 'cscs', false)
     attributes = Array.new(0)
     attributes.push(attr1)
 
-    identityRequest = Xooa::Response::IdentityRequest.new("s", 'r', false, attributes)
+    identityRequest = Xooa::Request::IdentityRequest.new("s", 'r', false, attributes)
 
     pendingIdentityResponse = client.enrollIdentityAsync(identityRequest)
     pendingIdentityResponse.display
@@ -177,9 +175,15 @@ if __FILE__ == $0
 
     client.getResultForQuery(pendingQuery.resultId).display
 
+    puts('----- END -----')
+
   rescue Xooa::Exception::XooaApiException => e
+    puts()
+    puts('----- Exception -----')
     e.display
   rescue Xooa::Exception::XooaRequestTimeoutException => xe
+    puts()
+    puts('----- Exception -----')
     xe.display
   end
 

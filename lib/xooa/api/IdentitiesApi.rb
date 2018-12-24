@@ -24,20 +24,25 @@ require 'xooa/exception/XooaApiException'
 
 module Xooa
   module Api
-
+    # Class to provide methods for connecting to Identities Api
     class IdentitiesApi
-
-      attr_accessor :requestUtil
+      attr_accessor :request_util
 
       attr_accessor :logger
 
       attr_accessor :debugging
 
-      def initialize(appUrl, apiToken, debugging)
+      # Initializes the IdentitiesApi
+      #
+      # @param app_url URL for the app to invoke
+      # @param api_token API Token for the app and the identity
+      # @param debugging debug tag
+      # @return IdentitiesApi
+      def initialize(app_url, api_token, debugging)
 
-        @appUrl = appUrl
-        @apiToken = apiToken
-        @requestUtil = Xooa::Util::RequestUtil.new
+        @app_url = app_url
+        @api_token = api_token
+        @request_util = Xooa::Util::RequestUtil.new
         @logger = Logger.new(STDOUT)
         @debugging = debugging
       end
@@ -47,35 +52,35 @@ module Xooa
       #
       # @param timeout Request timeout in millisecond
       # @return IdentityResponse
-      def currentIdentity(timeout = "4000")
+      def current_identity(timeout = '4000')
 
-        path = "/identities/me/"
+        path = '/identities/me/'
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{statusCode}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -86,24 +91,25 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
 
           attributes = response['Attrs']
 
-          attributesList = Array.new(0)
+          attributes_list = Array.new(0)
 
-          if attributes.respond_to?("each")
+          if attributes.respond_to?('each')
             attributes.each do |attr|
 
               attribute = Xooa::Response::Attr.new(attr['name'], attr['value'], attr['ecert'])
-              attributesList.push(attribute)
+              attributes_list.push(attribute)
             end
           else
             attribute = Xooa::Response::Attr.new(attributes['name'], attributes['value'], attributes['ecert'])
-            attributesList.push(attribute)
+            attributes_list.push(attribute)
           end
 
           return Xooa::Response::IdentityResponse.new(response['IdentityName'],
+                                                      response['AppName'],
                                                       response['ApiToken'],
                                                       response['Id'],
                                                       response['AppId'],
@@ -111,14 +117,14 @@ module Xooa
                                                       response['canManageIdentities'],
                                                       response['createdAt'],
                                                       response['updatedAt'],
-                                                      attributesList)
+                                                      attributes_list)
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
@@ -128,36 +134,36 @@ module Xooa
       #
       # @param timeout Request timeout in millisecond
       # @return Array[IdentityResponse]
-      def getIdentities(timeout = "4000")
+      def get_identities(timeout = '4000')
 
-        path = "/identities/"
+        path = '/identities/'
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
 
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{statusCode}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -169,50 +175,51 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
 
           responses = Array.new(0)
 
-          if response.respond_to?("each")
+          if response.respond_to?('each')
             response.each do |resp|
 
               attributes = resp['Attrs']
 
-              attributesList = Array.new(0)
+              attributes_list = Array.new(0)
 
-              if attributes.respond_to?("each")
+              if attributes.respond_to?('each')
                 attributes.each do |attr|
 
                   attribute = Xooa::Response::Attr.new(attr['name'], attr['value'], attr['ecert'])
-                  attributesList.push(attribute)
+                  attributes_list.push(attribute)
                 end
               elsif attribute = Xooa::Response::Attr.new(attributes['name'], attributes['value'], attributes['ecert'])
-                attributesList.push(attribute)
+                attributes_list.push(attribute)
               end
 
-              identityResponse = Xooa::Response::IdentityResponse.new(resp['IdentityName'],
-                                                                      resp['ApiToken'],
-                                                                      resp['Id'],
-                                                                      resp['AppId'],
-                                                                      resp['Access'],
-                                                                      resp['canManageIdentities'],
-                                                                      resp['createdAt'],
-                                                                      resp['updatedAt'],
-                                                                      attributesList)
+              identity_response = Xooa::Response::IdentityResponse.new(resp['IdentityName'],
+                                                                       response['AppName'],
+                                                                       resp['ApiToken'],
+                                                                       resp['Id'],
+                                                                       resp['AppId'],
+                                                                       resp['Access'],
+                                                                       resp['canManageIdentities'],
+                                                                       resp['createdAt'],
+                                                                       resp['updatedAt'],
+                                                                       attributes_list)
 
-              responses.push(identityResponse)
+              responses.push(identity_response)
             end
           end
 
           return responses
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
 
         end
       end
@@ -225,39 +232,39 @@ module Xooa
       # and identities added using this endpoint will appear, and can be managed, using Xooa console under the identities tab of the smart contract app
       # Required permission: manage identities (canManageIdentities=true)
       #
-      # @param identityRequest Identity Request data to create a new identity
+      # @param identity_request Identity Request data to create a new identity
       # @param timeout Request timeout in millisecond
       # @return IdentityResponse
-      def enrollIdentity(identityRequest, timeout = "4000")
+      def enroll_identity(identity_request, timeout = '4000')
 
-        path = "/identities/"
+        path = '/identities/'
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = identityRequest.toJson
+        post_body = identity_request.to_json
 
         begin
 
-          request = requestUtil.buildRequest(url, 'POST', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'POST', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{statusCode}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -269,22 +276,23 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
 
           attributes = response['Attrs']
 
-          attributesList = Array.new(0)
+          attributes_list = Array.new(0)
 
-          if attributes.respond_to?("each")
+          if attributes.respond_to?('each')
             attributes.each do |attr|
 
               attribute = Xooa::Response::Attr.new(attr['name'], attr['value'], attr['ecert'])
 
-              attributesList.push(attribute)
+              attributes_list.push(attribute)
             end
           end
 
           return Xooa::Response::IdentityResponse.new(response['IdentityName'],
+                                                      response['AppName'],
                                                       response['ApiToken'],
                                                       response['Id'],
                                                       response['AppId'],
@@ -292,15 +300,15 @@ module Xooa
                                                       response['canManageIdentities'],
                                                       response['createdAt'],
                                                       response['updatedAt'],
-                                                      attributesList)
+                                                      attributes_list)
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
@@ -312,36 +320,36 @@ module Xooa
       # and identities added using this endpoint will appear, and can be managed, using Xooa console under the identities tab of the smart contract app
       # Required permission: manage identities (canManageIdentities=true)
       #
-      # @param identityRequest Identity Request data to create a new identity
+      # @param identity_request Identity Request data to create a new identity
       # @return PendingTransactionResponse
-      def enrollIdentityAsync(identityRequest)
+      def enroll_identity_async(identity_request)
 
-        path = "/identities/"
+        path = '/identities/'
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'true'
+        query_params = {}
+        query_params[:'async'] = 'true'
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = identityRequest.toJson
+        post_body = identity_request.to_json
 
         begin
-          request = requestUtil.buildRequest(url, 'POST', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'POST', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -353,11 +361,11 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 202
+        if status_code == 202
           return Xooa::Response::PendingTransactionResponse.new(response['resultId'], response['resultURL'])
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
@@ -365,38 +373,38 @@ module Xooa
       # Generates new identity API Token
       # Required permission: manage identities (canManageIdentities=true)
       #
-      # @param identityId Identity id for which to create a new API Token
+      # @param identity_id Identity id for which to create a new API Token
       # @param timeout Request timeout in millisecond
       # @return IdentityResponse
-      def regenerateIdentityApiToken(identityId, timeout = "4000")
+      def regenerate_identity_api_token(identity_id, timeout = '4000')
 
-        path = "/identities/{IdentityId}/regeneratetoken".sub('{' + 'IdentityId' + '}', identityId.to_s)
+        path = '/identities/{IdentityId}/regeneratetoken'.sub('{' + 'IdentityId' + '}', identity_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'POST', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'POST', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -408,20 +416,21 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
 
           attributes = response['Attrs']
 
-          attributesList = Array.new(0)
+          attributes_list = Array.new(0)
 
-          if attributes.respond_to?("each")
+          if attributes.respond_to?('each')
             attributes.each do |attr|
               attribute = Xooa::Response::Attr.new(attr['name'], attr['value'], attr['ecert'])
-              attributesList.push(attribute)
+              attributes_list.push(attribute)
             end
           end
 
           return Xooa::Response::IdentityResponse.new(response['IdentityName'],
+                                                      response['AppName'],
                                                       response['ApiToken'],
                                                       response['Id'],
                                                       response['AppId'],
@@ -429,14 +438,14 @@ module Xooa
                                                       response['canManageIdentities'],
                                                       response['createdAt'],
                                                       response['updatedAt'],
-                                                      attributesList)
+                                                      attributes_list)
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
@@ -444,38 +453,38 @@ module Xooa
       # Get the specified identity from the identity registry.
       # Required permission: manage identities (canManageIdentities=true)
       #
-      # @param identityId Identity id for which to find the Identity details
+      # @param identity_id Identity id for which to find the Identity details
       # @param timeout Request timeout in millisecond
       # @return IdentityResponse
-      def getIdentity(identityId, timeout = "4000")
+      def get_identity(identity_id, timeout = "4000")
 
-        path = "/identities/{IdentityId}".sub('{' + 'IdentityId' + '}', identityId.to_s)
+        path = '/identities/{IdentityId}'.sub('{' + 'IdentityId' + '}', identity_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{statusCode}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -487,20 +496,21 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
 
           attributes = response['Attrs']
 
-          attributesList = Array.new(0)
+          attributes_list = Array.new(0)
 
-          if attributes.respond_to?("each")
+          if attributes.respond_to?('each')
             attributes.each do |attr|
               attribute = Xooa::Response::Attr.new(attr['name'], attr['value'], attr['ecert'])
-              attributesList.push(attribute)
+              attributes_list.push(attribute)
             end
           end
 
           return Xooa::Response::IdentityResponse.new(response['IdentityName'],
+                                                      response['AppName'],
                                                       response['ApiToken'],
                                                       response['Id'],
                                                       response['AppId'],
@@ -508,15 +518,15 @@ module Xooa
                                                       response['canManageIdentities'],
                                                       response['createdAt'],
                                                       response['updatedAt'],
-                                                      attributesList)
+                                                      attributes_list)
 
-        elsif statusCode == 202.ds
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
@@ -524,39 +534,39 @@ module Xooa
       # Deletes an identity.
       # Required permission: manage identities (canManageIdentities=true)
       #
-      # @param identityId Identity id for which to delete the Identity details
+      # @param identity_id Identity id for which to delete the Identity details
       # @param timeout Request timeout in millisecond
       # @return boolean
-      def deleteIdentity(identityId, timeout = "4000")
+      def delete_identity(identity_id, timeout = '4000')
 
-        path = "/identities/{IdentityId}".sub('{' + 'IdentityId' + '}', identityId.to_s)
+        path = '/identities/{IdentityId}'.sub('{' + 'IdentityId' + '}', identity_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
 
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'DELETE', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'DELETE', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -568,10 +578,10 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
           return response['deleted']
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 

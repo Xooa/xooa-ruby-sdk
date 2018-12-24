@@ -21,51 +21,52 @@ require 'xooa/exception/XooaApiException'
 
 module Xooa
   module Util
-
+    # Util class for requests to API
     class RequestUtil
 
       # Create a Url with the base url and the path for the request
+      #
       # @param url base url for the app
       # @param path path for the request
       # @return url
-      def getUrl(url, path)
+      def get_url(url, path)
+
         path = "/#{path}".gsub(/\/+/, '/')
         URI.encode(url + path)
       end
 
-
-      # Build request to be made
+      # Build request to be made to API
+      #
       # @param url url for the request
       # @param method request method
       # @options opts options for the request
       # @return TyphoeusRequest
-      def buildRequest(url, method, opts = {})
+      def build_request(url, method, opts = {})
 
         method = method.to_sym.downcase
-        headerParams = opts[:headerParams] || {}
-        queryParams = opts[:queryParams] || {}
+        header_params = opts[:header_params] || {}
+        query_params = opts[:query_params] || {}
         body = opts[:body] || {}
 
-        reqOpts = {
+        req_opts = {
             :method => method,
-            :headers => headerParams,
-            :params => queryParams,
+            :headers => header_params,
+            :params => query_params,
             :body => body
         }
 
-        request = Typhoeus::Request.new(url, reqOpts)
+        request = Typhoeus::Request.new(url, req_opts)
 
         request
       end
 
-
       # Get the response for the request
+      #
       # @param request request to be submitted to the blockchain
       # @return responseJson
-      def getResponse(request)
+      def get_response(request)
 
         begin
-
           response = request.run
 
 =begin
@@ -79,15 +80,14 @@ module Xooa
               end
             end
 =end
+          response_body = response.body
 
-          responseBody = response.body
+          return nil, response.code if response_body.nil? || response_body.empty?
 
-          return nil, response.code if responseBody.nil? || responseBody.empty?
-
-          return responseBody, response.code if response.headers['Content-Type'] == 'string'
+          return response_body, response.code if response.headers['Content-Type'] == 'string'
 
           begin
-            data = JSON.parse(responseBody)
+            data = JSON.parse(response_body)
 
           rescue JSON::ParseError => e
             raise Xooa::Exception::XooaApiException.new('0', e.to_s)
@@ -100,9 +100,7 @@ module Xooa
         rescue StandardError => e
           raise Xooa::Exception::XooaApiException.new('0', e.to_s)
         end
-
       end
-
     end
 
   end

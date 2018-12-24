@@ -53,13 +53,13 @@ This class contains all the methods made available by the SDK.
 ##### API Token
 The API Token for the app provided on Xooa Platform when you deploy an app there. You can also regenerate a new API Token for an Identity by going to Identities tab in the app and clicking on Actions -> Regenerate API Token.
 ```Ruby
-    attr_accessor :apiToken
+    attr_accessor :api_token
 ```
 
 ##### App URL
 The App URL where the app is deployed. It is default to [Xooa](https://api.xooa.com/api/v1). You can change it if you want to test your app in a local environment.
 ```Ruby
-    attr_accessor :appUrl
+    attr_accessor :app_url
 ```
 
 ##### Debugging
@@ -71,18 +71,10 @@ instance variable to set logging level to debugging.
 
 ### Constructors
 
-##### initialize
+##### initialize(api_token, app_url)
 
 ```Ruby
-    def initialize
-```
-Default Constructor of [XooaClient](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa.rb).
-
-
-##### initialize(apiToken, appUrl)
-
-```Ruby
-      def initialize(apiToken, appUrl = "https://api.xooa.com/api/v1")
+      def initialize(api_token = "", app_url = "https://api.xooa.com/api/v1")
 ```
 Constructor to create a [XooaClient](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa.rb) object with the given API Token and App Url. It sets the default value for app url to [Xooa](https://api.xooa.com/api/v1).
 
@@ -120,9 +112,9 @@ Method to subscribe to events generated in the smart contract. This method requi
 Method to unsubscribe the events from the smart contract.
 
 
-##### invoke(functionName, args, timeout = "4000")
+##### invoke(function_name, args, timeout = "4000")
 ```Ruby
-   def invoke(functionName, args, timeout = "4000")
+   def invoke(function_name, args, timeout = "4000")
 ```
 Method to Invoke blockchain to submit transactions. For more details refer [Xooa Invoke API](https://api.xooa.com/explorer/#!/Smart_Contract/Invoke).
 
@@ -134,9 +126,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### invokeAsync(functionName, args)
+##### invoke_async(function_name, args)
 ```Ruby
-    def invokeAsync(functionName, args)
+    def invoke_async(function_name, args)
 ```
 Method to Invoke blockchain in async mode to submit transactions. For more details refer [Xooa Invoke API](https://api.xooa.com/explorer/#!/Smart_Contract/Invoke).
 
@@ -148,9 +140,9 @@ Throws -
 
 
 
-##### query(functionName, args, timeout = "4000")
+##### query(function_name, args, timeout = "4000")
 ```Ruby
-    def query(functionName, args, timeout = "4000")
+    def query(function_name, args, timeout = "4000")
 ```
 Method to Query blockchain to fetch state for arguments. For more details refer [Xooa Query API](https://api.xooa.com/explorer/#!/Smart_Contract/Query).
 
@@ -162,9 +154,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### queryAsync(functionName, args)
+##### query_async(function_name, args)
 ```Ruby
-    def queryAsync(functionName, args)
+    def query_async(function_name, args)
 ```
 Method to Query blockchain in async mode to fetch state for arguments. For more details refer [Xooa Query API](https://api.xooa.com/explorer/#!/Smart_Contract/Query).
 
@@ -176,9 +168,9 @@ Throws -
 
 
 
-##### currentIdentity(timeout = "4000")
+##### current_identity(timeout = "4000")
 ```Ruby
-    def currentIdentity(timeout = "4000")
+    def current_identity(timeout = "4000")
 ```
 Method to get the authenticating identity details. For more details refer [Authenticated Identity](https://api.xooa.com/explorer/#!/Identities/Authenticated_Identity).
 
@@ -190,9 +182,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getIdentities(timeout = "4000")
+##### get_identities(timeout = "4000")
 ```Ruby
-    def getIdentities(timeout = "4000")
+    def get_identities(timeout = "4000")
 ```
 Method to get a list of all the identities associated with the app. For more details refer [Get All Identitites](https://api.xooa.com/explorer/#!/Identities/Identities_getAllIdentities).
 
@@ -204,9 +196,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### enrollIdentity(identityRequest, timeout = "4000")
+##### enroll_identity(identity_request, timeout = "4000")
 ```Ruby
-    def enrollIdentity(identityRequest, timeout = "4000")
+    def enroll_identity(identity_request, timeout = "4000")
 ```
 Method to enroll a new identity for the app. For more details refer [Enroll Identity](https://api.xooa.com/explorer/#!/Identities/Enrollment).
 
@@ -218,9 +210,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### enrollIdentityAsync(identityRequest)
+##### enroll_identity_async(identity_request)
 ```Ruby
-    def enrollIdentityAsync(identityRequest)
+    def enroll_identity_async(identity_request)
 ```
 Method to enroll a new identity for the app in async mode. For more details refer [Enroll Identity](https://api.xooa.com/explorer/#!/Identities/Enrollment).
 
@@ -231,9 +223,9 @@ Throws -
 [XooaApiException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaApiException.rb) - Instance of XooaApiException giving the error code and error message.
 
 
-##### regenerateIdentityApiToken(identityId, timeout = "4000")
+##### regenerate_identity_api_token(identity_id, timeout = "4000")
 ```Ruby
-    def regenerateIdentityApiToken(identityId, timeout = "4000")
+    def regenerate_identity_api_token(identity_id, timeout = "4000")
 ```
 Method to regenerate a new API Token for the given identity id. For more details refer [Regenerate Token](https://api.xooa.com/explorer/#!/Identities/Regenerate_Token).
 
@@ -245,9 +237,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getIdentity(identityId, timeout = "4000")
+##### get_identity(identity_id, timeout = "4000")
 ```Ruby
-    def getIdentity(identityId, timeout = "4000")
+    def get_identity(identity_id, timeout = "4000")
 ```
 Method to get Identity details for the given identity id. For more details refer [Identity Information](https://api.xooa.com/explorer/#!/Identities/Get_identity).
 
@@ -259,9 +251,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### deleteIdentity(identityId, timeout = "4000")
+##### delete_identity(identity_id, timeout = "4000")
 ```Ruby
-    def deleteIdentity(identityId, timeout = "4000")
+    def delete_identity(identity_id, timeout = "4000")
 ```
 Method to delete the identity from the app for the given identity id. For more details refer [Delete Identity](https://api.xooa.com/explorer/#!/Identities/Delete_Identity).
 
@@ -274,9 +266,9 @@ Throws -
 
 
 
-##### getCurrentBlock(timeout = "4000")
+##### get_current_block(timeout = "4000")
 ```Ruby
-    def getCurrentBlock(timeout = "4000")
+    def get_current_block(timeout = "4000")
 ```
 Method to get the block number and hashes of current (highest) block. For more details refer [Get Current Block](https://api.xooa.com/explorer/#!/Ledger/BlockHeight).
 
@@ -288,9 +280,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getCurrentBlockAsync
+##### get_current_block_async
 ```Ruby
-    def getCurrentBlockAsync
+    def get_current_block_async
 ```
 Method to get the block number and hashes of current (highest) block in async mode. For more details refer [Get Current Block](https://api.xooa.com/explorer/#!/Ledger/BlockHeight).
 
@@ -301,9 +293,9 @@ Throws -
 [XooaApiException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaApiException.rb) - Instance of XooaApiException giving the error code and error message.
 
 
-##### getBlockByNumber(blockNumber, timeout = "4000")
+##### get_block_by_number(block_number, timeout = "4000")
 ```Ruby
-    def getBlockByNumber(blockNumber, timeout = "4000")
+    def get_block_by_number(block_number, timeout = "4000")
 ```
 Method to get the block number and hashes of the block number. For more details refer [Get Block](https://api.xooa.com/explorer/#!/Ledger/BlockData).
 
@@ -315,9 +307,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getBlockByNumberAsync(blockNumber)
+##### get_block_by_number_async(block_number)
 ```Ruby
-    def getBlockByNumberAsync(blockNumber)
+    def get_block_by_number_async(block_number)
 ```
 Method to get the block number and hashes of the block number in async mode. For more details refer [Get Block](https://api.xooa.com/explorer/#!/Ledger/BlockData).
 
@@ -328,9 +320,9 @@ Throws -
 [XooaApiException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaApiException.rb) - Instance of XooaApiException giving the error code and error message.
 
 
-##### getTransactionByTransactionId(transactionId, timeout = "4000")
+##### get_transaction_by_transaction_id(transaction_id, timeout = "4000")
 ```Ruby
-    def getTransactionByTransactionId(transactionId, timeout = "4000")
+    def get_transaction_by_transaction_id(transaction_id, timeout = "4000")
 ```
 Method to get the transaction details for the transaction id. For more details refer [Get Transaction By TransactionId](https://api.xooa.com/explorer/#!/Ledger/BlockData_0).
 
@@ -342,9 +334,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getTransactionByTransactionIdAsync(transactionId)
+##### get_transaction_by_transaction_id_async(transaction_id)
 ```Ruby
-    def getTransactionByTransactionIdAsync(transactionId)
+    def get_transaction_by_transaction_id_async(transaction_id)
 ```
 Method to get the transaction details for the transaction id in async mode. For more details refer [Get Transaction By TransactionId](https://api.xooa.com/explorer/#!/Ledger/BlockData_0).
 
@@ -356,9 +348,9 @@ Throws -
 
 
 
-##### getResultForInvoke(resultId, timeout = "4000")
+##### get_result_for_invoke(result_id, timeout = "4000")
 ```Ruby
-    def getResultForInvoke(resultId, timeout = "4000")
+    def get_result_for_invoke(result_id, timeout = "4000")
 ```
 Method to get Invoke Response for a request in pending state. For more detials refer [Result API](https://api.xooa.com/explorer/#!/Result/Result).
 
@@ -370,9 +362,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getResultForQuery(resultId, timeout = "4000")
+##### get_result_for_query(result_id, timeout = "4000")
 ```Ruby
-    def getResultForQuery(resultId, timeout = "4000")
+    def get_result_for_query(result_id, timeout = "4000")
 ```
 Method to get Query Response for a request in pending state. For more detials refer [Result API](https://api.xooa.com/explorer/#!/Result/Result).
 
@@ -384,9 +376,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getResultForIdentities(resultId, timeout = "4000")
+##### get_result_for_identities(result_id, timeout = "4000")
 ```Ruby
-    def getResultForIdentities(resultId, timeout = "4000")
+    def get_result_for_identities(result_id, timeout = "4000")
 ```
 Method to get Identity Response for a request in pending state. For more detials refer [Result API](https://api.xooa.com/explorer/#!/Result/Result).
 
@@ -398,9 +390,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getResultForCurrentBlock(resultId, timeout = "4000")
+##### get_result_for_current_block(result_id, timeout = "4000")
 ```Ruby
-    def getResultForCurrentBlock(resultId, timeout = "4000")
+    def get_result_for_current_block(result_id, timeout = "4000")
 ```
 Method to get CurrentBlockResponse for a request in pending state. For more detials refer [Result API](https://api.xooa.com/explorer/#!/Result/Result).
 
@@ -412,9 +404,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getResultForBlockByNumber(resultId, timeout = "4000")
+##### get_result_for_block_by_number(result_id, timeout = "4000")
 ```Ruby
-    def getResultForBlockByNumber(resultId, timeout = "4000")
+    def get_result_for_block_by_number(result_id, timeout = "4000")
 ```
 Method to get BlockResponse for a request in pending state. For more detials refer [Result API](https://api.xooa.com/explorer/#!/Result/Result).
 
@@ -426,9 +418,9 @@ Throws -
 [XooaRequestTimeoutException](https://github.com/Xooa/xooa-ruby-sdk/blob/master/lib/xooa/exception/XooaRequestTimeoutException.rb) - Instance of XooaRequestTimeoutException giving result id and result url for pending transaction.
 
 
-##### getResultForTransaction(resultId, timeout = "4000")
+##### get_result_for_transaction(result_id, timeout = "4000")
 ```Ruby
-    def getResultForTransaction(resultId, timeout = "4000")
+    def get_result_for_transaction(result_id, timeout = "4000")
 ```
 Method to get TransactionResponse for a request in pending state. For more detials refer [Result API](https://api.xooa.com/explorer/#!/Result/Result).
 

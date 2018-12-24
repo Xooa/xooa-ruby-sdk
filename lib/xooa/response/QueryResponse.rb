@@ -15,9 +15,8 @@
 
 module Xooa
   module Response
-
+    # Response received for Query request
     class QueryResponse
-
       attr_accessor :payload
 
       # Initialize QueryResponse
@@ -25,14 +24,15 @@ module Xooa
       # @param payload payload received from the blockchain
       # @return QueryResponse
       def initialize(payload)
+
         @payload = payload
       end
 
       # display the details for the QueryResponse
       def display
-        puts("Payload - #{@payload}")
-      end
 
+        puts('Payload - #{@payload}')
+      end
     end
 
   end

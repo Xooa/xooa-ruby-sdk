@@ -27,20 +27,25 @@ require 'xooa/exception/XooaApiException'
 
 module Xooa
   module Api
-
+    # Class to provide methods for connecting to Result Api
     class ResultApi
-
       attr_accessor :requestUtil
 
       attr_accessor :logger
 
       attr_accessor :debugging
 
-      def initialize(appUrl, apiToken, debugging)
+      # Initializes the ResultApi
+      #
+      # @param app_url URL for the app to invoke
+      # @param api_token API Token for the app and the identity
+      # @param debugging debug tag
+      # @return ResultApi
+      def initialize(app_url, api_token, debugging)
 
-        @appUrl = appUrl
-        @apiToken = apiToken
-        @requestUtil = Xooa::Util::RequestUtil.new
+        @app_url = app_url
+        @api_token = api_token
+        @request_util = Xooa::Util::RequestUtil.new
         @logger = Logger.new(STDOUT)
         @debugging = debugging
       end
@@ -48,38 +53,38 @@ module Xooa
 
       # This endpoint returns the result of previously submitted api request.
       #
-      # @param resultId Returned in previous Query/Invoke/Participant Operation
+      # @param result_id Returned in previous Query/Invoke/Participant Operation
       # @param timeout Request timeout in millisecond
       # @return QueryResponse
-      def getResultForQuery(resultId, timeout = "4000")
+      def get_result_for_query(result_id, timeout = '4000')
 
-        path = "/results/{ResultId}".sub('{' + 'ResultId' + '}', resultId.to_s)
+        path = '/results/{ResultId}'.sub('{' + 'ResultId' + '}', result_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -91,9 +96,9 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
           return Xooa::Response::QueryResponse.new(response['result'])
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
         else
@@ -105,39 +110,39 @@ module Xooa
 
       # This endpoint returns the result of previously submitted api request.
       #
-      # @param resultId Returned in previous Query/Invoke/Participant Operation
+      # @param result_id Returned in previous Query/Invoke/Participant Operation
       # @param timeout Request timeout in millisecond
       # @return InvokeResponse
-      def getResultForInvoke(resultId, timeout = "4000")
+      def get_result_for_invoke(result_id, timeout = "4000")
 
-        path = "/results/{ResultId}".sub('{' + 'ResultId' + '}', resultId.to_s)
+        path = '/results/{ResultId}'.sub('{' + 'ResultId' + '}', result_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
 
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -149,11 +154,11 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
           result = response['result']
           return Xooa::Response::InvokeResponse.new(result['txId'], result['payload'])
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
@@ -166,38 +171,38 @@ module Xooa
 
       # This endpoint returns the result of previously submitted api request.
       #
-      # @param resultId Returned in previous Query/Invoke/Participant Operation
+      # @param result_id Returned in previous Query/Invoke/Participant Operation
       # @param timeout Request timeout in millisecond
       # @return IdentityResponse
-      def getResultForIdentity(resultId, timeout = "4000")
+      def get_result_for_identity(result_id, timeout = "4000")
 
-        path = "/results/{ResultId}".sub('{' + 'ResultId' + '}', resultId.to_s)
+        path = '/results/{ResultId}'.sub('{' + 'ResultId' + '}', result_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -209,22 +214,23 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
 
           result = response['result']
 
           attributes = result['Attrs']
 
-          attributesList = Array.new(0)
+          attributes_list = Array.new(0)
 
-          if attributes.respond_to?("each")
+          if attributes.respond_to?('each')
             attributes.each do |attr|
               attribute = Xooa::Response::Attr.new(attr['name'], attr['value'], attr['ecert'])
-              attributesList.push(attribute)
+              attributes_list.push(attribute)
             end
           end
 
           return Xooa::Response::IdentityResponse.new(result['IdentityName'],
+                                                      response['AppName'],
                                                       result['ApiToken'],
                                                       result['Id'],
                                                       result['AppId'],
@@ -232,9 +238,9 @@ module Xooa
                                                       result['canManageIdentities'],
                                                       result['createdAt'],
                                                       result['updatedAt'],
-                                                      attributesList)
+                                                      attributes_list)
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
@@ -247,38 +253,38 @@ module Xooa
 
       # This endpoint returns the result of previously submitted api request.
       #
-      # @param resultId Returned in previous Query/Invoke/Participant Operation
+      # @param result_id Returned in previous Query/Invoke/Participant Operation
       # @param timeout Request timeout in millisecond
       # @return CurrentBlockResponse
-      def getResultForCurrentBlock(resultId, timeout = "4000")
+      def get_result_for_current_block(result_id, timeout = '4000')
 
-        path = "/results/{ResultId}".sub('{' + 'ResultId' + '}', resultId.to_s)
+        path = '/results/{ResultId}'.sub('{' + 'ResultId' + '}', result_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -290,58 +296,58 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
           payload = response['result']
 
           return Xooa::Response::CurrentBlockResponse.new(payload['blockNumber'],
                                                           payload['currentBlockHash'],
                                                           payload['previousBlockHash'])
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
 
       # This endpoint returns the result of previously submitted api request.
       #
-      # @param resultId Returned in previous Query/Invoke/Participant Operation
+      # @param result_id Returned in previous Query/Invoke/Participant Operation
       # @param timeout Request timeout in millisecond
       # @return BlockResponse
-      def getResultForBlockByNumber(resultId, timeout = "4000")
+      def get_result_for_block_by_number(result_id, timeout = '4000')
 
-        path = "/results/{ResultId}".sub('{' + 'ResultId' + '}', resultId.to_s)
+        path = '/results/{ResultId}'.sub('{' + 'ResultId' + '}', result_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -353,59 +359,59 @@ module Xooa
           raise Xooa::Exception::XooaApiException.new('0', se.to_s)
         end
 
-        if statusCode == 200
+        if status_code == 200
           payload = response['result']
           return Xooa::Response::BlockResponse.new(payload['previous_hash'],
                                                    payload['data_hash'],
                                                    payload['blockNumber'],
                                                    payload['numberOfTransactions'])
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
 
       # This endpoint returns the result of previously submitted api request.
       #
-      # @param resultId Returned in previous Query/Invoke/Participant Operation
+      # @param result_id Returned in previous Query/Invoke/Participant Operation
       # @param timeout Request timeout in millisecond
       # @return TransactionResponse
-      def getResultForTransaction(resultId, timeout = "4000")
+      def get_result_for_transaction(result_id, timeout = '4000')
 
-        path = "/results/{ResultId}".sub('{' + 'ResultId' + '}', resultId.to_s)
+        path = '/results/{ResultId}'.sub('{' + 'ResultId' + '}', result_id.to_s)
 
-        url = requestUtil.getUrl(@appUrl, path)
+        url = request_util.get_url(@app_url, path)
 
-        logger.info "Calling API #{url}"
+        logger.info 'Calling API #{url}'
         if debugging
-          logger.debug "Calling API #{url}"
+          logger.debug 'Calling API #{url}'
         end
 
-        queryParams = {}
-        queryParams[:'async'] = 'false'
-        queryParams[:'timeout'] = timeout
+        query_params = {}
+        query_params[:'async'] = 'false'
+        query_params[:'timeout'] = timeout
 
-        headerParams = {}
-        headerParams[:'Authorization'] = 'Bearer ' + @apiToken
-        headerParams[:'Content-Type'] = 'application/json'
+        header_params = {}
+        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Content-Type'] = 'application/json'
 
-        postBody = nil
+        post_body = nil
 
         begin
 
-          request = requestUtil.buildRequest(url, 'GET', :headerParams => headerParams, :queryParams => queryParams, :body => postBody)
+          request = request_util.build_request(url, 'GET', :header_params => header_params, :query_params => query_params, :body => post_body)
 
-          response, statusCode = requestUtil.getResponse(request)
+          response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug "Status Code - #{statusCode}"
-            logger.debug "Response - #{response}"
+            logger.debug 'Status Code - #{status_code}'
+            logger.debug 'Response - #{response}'
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -418,30 +424,30 @@ module Xooa
 
         end
 
-        if statusCode == 200
+        if status_code == 200
 
           payload = response['result']
 
-          txId = payload['txid']
-          createdAt = payload['createdt']
-          smartContract = payload['smartcontract']
-          creatorMspId = payload['creator_msp_id']
-          endorserMspId = payload['endorser_msp_id']
-          transactionType = payload['type']
+          tx_id = payload['txid']
+          created_at = payload['createdt']
+          smart_contract = payload['smartcontract']
+          creator_msp_id = payload['creator_msp_id']
+          endorser_msp_id = payload['endorser_msp_id']
+          transaction_type = payload['type']
           readsets = payload['read_set']
           writesets = payload['write_set']
 
-          readSets = Array.new(0)
+          read_sets = Array.new(0)
 
-          if readsets.respond_to?("each")
+          if readsets.respond_to?('each')
             readsets.each do |readset|
 
               chaincode = readset['chaincode']
               readsubsets = readset['set']
 
-              readSubSets = Array.new(0)
+              read_sub_sets = Array.new(0)
 
-              if readsubsets.respond_to?("each")
+              if readsubsets.respond_to?('each')
                 readsubsets.each do |set|
 
                   key = set['key']
@@ -449,60 +455,59 @@ module Xooa
 
                   version = Xooa::Response::Version.new(vrsn['block_num'], vrsn['tx_num'])
 
-                  readSubSet = Xooa::Response::ReadSubSet.new(key, version)
+                  read_sub_set = Xooa::Response::ReadSubSet.new(key, version)
 
-                  readSubSets.push(readSubSet)
+                  read_sub_sets.push(read_sub_set)
                 end
               end
 
-              readSet = Xooa::Response::ReadSet.new(chaincode, readSubSets)
+              read_set = Xooa::Response::ReadSet.new(chaincode, read_sub_sets)
 
-              readSets.push(readSet)
+              read_sets.push(read_set)
             end
           end
 
-          writeSets = Array.new(0)
+          write_sets = Array.new(0)
 
-          if writesets.respond_to?("each")
+          if writesets.respond_to?('each')
             writesets.each do |writeset|
 
               chaincode = writeset['chaincode']
               writesubsets = writeset['set']
 
-              writeSubSets = Array.new(0)
+              write_sub_sets = Array.new(0)
 
-              if writesubsets.respond_to?("each")
+              if writesubsets.respond_to?('each')
                 writesubsets.each do |set|
 
                   key = set['key']
                   value = set['value']
-                  isDelete = set['is_delete']
+                  is_delete = set['is_delete']
 
-                  writeSubSet = Xooa::Response::WriteSubSet.new(key, value, isDelete)
+                  write_sub_set = Xooa::Response::WriteSubSet.new(key, value, is_delete)
 
-                  writeSubSets.push(writeSubSet)
+                  write_sub_sets.push(write_sub_set)
                 end
               end
 
-              writeSet = Xooa::Response::WriteSet.new(chaincode, writeSubSets)
+              write_set = Xooa::Response::WriteSet.new(chaincode, write_sub_sets)
 
-              writeSets.push(writeSet)
+              write_sets.push(write_set)
             end
           end
 
-          return Xooa::Response::TransactionResponse.new(txId, smartContract, creatorMspId, endorserMspId, transactionType, createdAt, readSets, writeSets)
+          return Xooa::Response::TransactionResponse.new(tx_id, smart_contract, creator_msp_id, endorser_msp_id, transaction_type, created_at, read_sets, write_sets)
 
-        elsif statusCode == 202
+        elsif status_code == 202
           logger.error response
           raise Xooa::Exception::XooaRequestTimeoutException.new(response['resultId'], response['resultURL'])
 
         else
           logger.error response
-          raise Xooa::Exception::XooaApiException.new(statusCode, response)
+          raise Xooa::Exception::XooaApiException.new(status_code, response)
         end
       end
 
     end
-
   end
 end

@@ -15,26 +15,29 @@
 
 module Xooa
   module Exception
-
+    # Exception thrown when a synchronous call timesout
     class XooaRequestTimeoutException < StandardError
 
-      attr_accessor :resultId
+      attr_accessor :result_id
 
-      attr_accessor :resultUrl
+      attr_accessor :result_url
 
       # Initialize XooaRequestTimeoutException
-      # @param resultId result id for the transaction in pending state
-      # @param errorMessage result url for the transaction in pending state
+      #
+      # @param result_id result id for the transaction in pending state
+      # @param result_url result url for the transaction in pending state
       # @return XooaRequestTimeoutException
-      def initialize(resultId, resultUrl)
-        @resultId = resultId
-        @resultUrl = resultUrl
+      def initialize(result_id, result_url)
+
+        @result_id = result_id
+        @result_url = result_url
       end
 
       # display the details for the XooaResultTimeoutException
       def display
-        puts("Result Id - #{@resultId}")
-        puts("Result Url - #{@resultUrl}")
+
+        puts("Result Id - #{@result_id}")
+        puts("Result Url - #{@result_url}")
       end
 
     end

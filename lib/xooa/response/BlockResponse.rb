@@ -43,7 +43,7 @@ module Xooa
       # display the details for the BlockResponse
       def display
 
-        puts("Block Number - #{@block_mumber}")
+        puts("Block Number - #{@block_number}")
         puts("Number of Transactions - #{@number_of_transactions}")
         puts("Data Hash - #{@data_hash}")
         puts("Previous Hash - #{@previous_hash}")

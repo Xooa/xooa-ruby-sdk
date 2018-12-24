@@ -34,249 +34,213 @@ RSpec.describe Xooa::Api::IdentitiesApi do
     end
   end
 
+  it 'Test for response of Current Identity' do
 
-  #describe 'Current Identity' do
-    it 'Test for response of Current Identity' do
+    begin
+      identityResponse = @instance.current_identity('4000')
 
-      begin
-        identityResponse = @instance.currentIdentity("4000")
+      expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
-        expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
+      expect(identityResponse.identity_name).to_not be_nil
+      expect(identityResponse.app_name).to_not be_nil
+      expect(identityResponse.id).to_not be_nil
+      expect(identityResponse.access).to_not be_nil
+      expect(identityResponse.can_manage_identities).to_not be_nil
 
-        expect(identityResponse.identityName).to_not be_nil
-        expect(identityResponse.id).to_not be_nil
-        expect(identityResponse.access).to_not be_nil
-        expect(identityResponse.canManageIdentities).to_not be_nil
+      expect(identityResponse.identity_name).to_not be('')
+      expect(identityResponse.app_name).to_not be('')
+      expect(identityResponse.id).to_not be('')
+      expect(identityResponse.access).to_not be('')
+      expect(identityResponse.can_manage_identities).to_not be('')
 
-        expect(identityResponse.identityName).to_not be("")
-        expect(identityResponse.id).to_not be("")
-        expect(identityResponse.access).to_not be("")
-        expect(identityResponse.canManageIdentities).to_not be("")
+    rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
-      rescue Xooa::Exception::XooaRequestTimeoutException => xrte
+      expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-        expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-        expect(xrte.resultId).to_not be_nil
-        expect(xrte.resultUrl).to_not be_nil
-
-        expect(xrte.resultId).to_not be("")
-        expect(xrte.resultUrl).to_not be("")
-
-      end
-
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-  #end
+  end
 
-  #describe 'Get All Identities' do
-    it 'Test for response of Get All Identities' do
+  it 'Test for response of Get All Identities' do
 
-      begin
-        identityResponses = @instance.getIdentities("4000")
+    begin
+      identityResponses = @instance.get_identities('4000')
 
-        identityResponse = identityResponses[0]
-        expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
+      identityResponse = identityResponses[0]
+      expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
-        expect(identityResponse.identityName).to_not be_nil
-        expect(identityResponse.id).to_not be_nil
-        expect(identityResponse.access).to_not be_nil
-        expect(identityResponse.canManageIdentities).to_not be_nil
+      expect(identityResponse.identity_name).to_not be_nil
+      expect(identityResponse.app_name).to_not be_nil
+      expect(identityResponse.id).to_not be_nil
+      expect(identityResponse.access).to_not be_nil
+      expect(identityResponse.can_manage_identities).to_not be_nil
 
-        expect(identityResponse.identityName).to_not be("")
-        expect(identityResponse.id).to_not be("")
-        expect(identityResponse.access).to_not be("")
-        expect(identityResponse.canManageIdentities).to_not be("")
+      expect(identityResponse.identity_name).to_not be('')
+      expect(identityResponse.app_name).to_not be('')
+      expect(identityResponse.id).to_not be('')
+      expect(identityResponse.access).to_not be('')
+      expect(identityResponse.can_manage_identities).to_not be('')
 
-      rescue Xooa::Exception::XooaRequestTimeoutException => xrte
+    rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
-        expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
+      expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-        expect(xrte.resultId).to_not be_nil
-        expect(xrte.resultUrl).to_not be_nil
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-        expect(xrte.resultId).to_not be("")
-        expect(xrte.resultUrl).to_not be("")
-
-      end
-
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-  #end
+  end
 
+  it 'Test for response of Enroll Identity' do
 
-  #describe 'Enroll Identity' do
-    it 'Test for response of Enroll Identity' do
+    begin
+      attr = Xooa::Response::Attr.new('Test', 'Test', false)
+      attributes = Array.new.push(attr)
+      identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      begin
+      identityResponse = @instance.enroll_identity(identityRequest, '4000')
 
-        attr = Xooa::Response::Attr.new("Test", "Test", false)
-        attributes = Array.new.push(attr)
-        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+      expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
-        identityResponse = @instance.enrollIdentity(identityRequest,"4000")
+      expect(identityResponse.identity_name).to_not be_nil
+      expect(identityResponse.app_name).to_not be_nil
+      expect(identityResponse.api_token).to_not be_nil
+      expect(identityResponse.id).to_not be_nil
+      expect(identityResponse.access).to_not be_nil
+      expect(identityResponse.can_manage_identities).to_not be_nil
+      expect(identityResponse.attributes).to_not be_nil
 
-        expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
+    rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
-        expect(identityResponse.identityName).to_not be_nil
-        expect(identityResponse.apiToken).to_not be_nil
-        expect(identityResponse.id).to_not be_nil
-        expect(identityResponse.access).to_not be_nil
-        expect(identityResponse.canManageIdentities).to_not be_nil
-        expect(identityResponse.attributes).to_not be_nil
+      expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-      rescue Xooa::Exception::XooaRequestTimeoutException => xrte
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-        expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
-
-        expect(xrte.resultId).to_not be_nil
-        expect(xrte.resultUrl).to_not be_nil
-
-        expect(xrte.resultId).to_not be("")
-        expect(xrte.resultUrl).to_not be("")
-
-      end
-
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
- # end
+  end
 
+  it 'Test for response of Enroll Identity Async' do
 
-  #describe 'Enroll Identity Async' do
-    it 'Test for response of Enroll Identity Async' do
+    begin
+      attr = Xooa::Response::Attr.new('Test', 'Test', false)
+      attributes = Array.new.push(attr)
+      identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      begin
+      pendingResponse = @instance.enroll_identity_async(identityRequest)
 
-        attr = Xooa::Response::Attr.new("Test", "Test", false)
-        attributes = Array.new.push(attr)
-        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+      expect(pendingResponse).to be_instance_of(Xooa::Response::PendingTransactionResponse)
 
-        pendingResponse = @instance.enrollIdentityAsync(identityRequest)
+      expect(pendingResponse.result_id).to_not be_nil
+      expect(pendingResponse.result_url).to_not be_nil
 
-        expect(pendingResponse).to be_instance_of(Xooa::Response::PendingTransactionResponse)
-
-        expect(pendingResponse.resultId).to_not be_nil
-        expect(pendingResponse.resultUrl).to_not be_nil
-
-        expect(pendingResponse.resultId).to_not be("")
-        expect(pendingResponse.resultUrl).to_not be("")
-
-      end
-
+      expect(pendingResponse.result_id).to_not be('')
+      expect(pendingResponse.result_url).to_not be('')
     end
-  #end
+  end
 
+  it 'Test for response of Regenerate Identity Api Token' do
 
-  #describe 'Regenerate Identity Api Token' do
-    it 'Test for response of Regenerate Identity Api Token' do
+    begin
+      attr = Xooa::Response::Attr.new('Test', 'Test', false)
+      attributes = Array.new.push(attr)
+      identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      begin
+      response = @instance.enroll_identity(identityRequest, '4000')
 
-        attr = Xooa::Response::Attr.new("Test", "Test", false)
-        attributes = Array.new.push(attr)
-        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+      identityResponse = @instance.regenerate_identity_api_token(response.id, '4000')
 
-        response = @instance.enrollIdentity(identityRequest,"4000")
+      expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
-        identityResponse = @instance.regenerateIdentityApiToken(response.id, "4000")
+      expect(identityResponse.identity_name).to_not be_nil
+      expect(identityResponse.api_token).to_not be_nil
+      expect(identityResponse.id).to_not be_nil
+      expect(identityResponse.access).to_not be_nil
+      expect(identityResponse.can_manage_identities).to_not be_nil
 
-        expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
+      expect(identityResponse.identity_name).to_not be('')
+      expect(identityResponse.api_token).to_not be('')
+      expect(identityResponse.id).to_not be('')
+      expect(identityResponse.access).to_not be('')
+      expect(identityResponse.can_manage_identities).to_not be('')
 
-        expect(identityResponse.identityName).to_not be_nil
-        expect(identityResponse.apiToken).to_not be_nil
-        expect(identityResponse.id).to_not be_nil
-        expect(identityResponse.access).to_not be_nil
-        expect(identityResponse.canManageIdentities).to_not be_nil
+    rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
-        expect(identityResponse.identityName).to_not be("")
-        expect(identityResponse.apiToken).to_not be("")
-        expect(identityResponse.id).to_not be("")
-        expect(identityResponse.access).to_not be("")
-        expect(identityResponse.canManageIdentities).to_not be("")
+      expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-      rescue Xooa::Exception::XooaRequestTimeoutException => xrte
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-        expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
-
-        expect(xrte.resultId).to_not be_nil
-        expect(xrte.resultUrl).to_not be_nil
-
-        expect(xrte.resultId).to_not be("")
-        expect(xrte.resultUrl).to_not be("")
-
-      end
-
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-  #end
+  end
 
+  it 'Test for response of Get Identity' do
 
-  #describe 'Get Identity' do
-    it 'Test for response of Get Identity' do
+    begin
+      attr = Xooa::Response::Attr.new('Test', 'Test', false)
+      attributes = Array.new.push(attr)
+      identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      begin
+      response = @instance.enroll_identity(identityRequest, '4000')
 
-        attr = Xooa::Response::Attr.new("Test", "Test", false)
-        attributes = Array.new.push(attr)
-        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+      identityResponse = @instance.get_identity(response.id, '4000')
 
-        response = @instance.enrollIdentity(identityRequest,"4000")
+      expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
-        identityResponse = @instance.getIdentity(response.id, "4000")
+      expect(identityResponse.identity_name).to_not be_nil
+      expect(identityResponse.id).to_not be_nil
+      expect(identityResponse.access).to_not be_nil
+      expect(identityResponse.can_manage_identities).to_not be_nil
 
-        expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
+      expect(identityResponse.identity_name).to_not be('')
+      expect(identityResponse.id).to_not be('')
+      expect(identityResponse.access).to_not be('')
+      expect(identityResponse.can_manage_identities).to_not be('')
 
-        expect(identityResponse.identityName).to_not be_nil
-        expect(identityResponse.id).to_not be_nil
-        expect(identityResponse.access).to_not be_nil
-        expect(identityResponse.canManageIdentities).to_not be_nil
+    rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
+      expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-        expect(identityResponse.identityName).to_not be("")
-        expect(identityResponse.id).to_not be("")
-        expect(identityResponse.access).to_not be("")
-        expect(identityResponse.canManageIdentities).to_not be("")
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-      rescue Xooa::Exception::XooaRequestTimeoutException => xrte
-
-        expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
-
-        expect(xrte.resultId).to_not be_nil
-        expect(xrte.resultUrl).to_not be_nil
-
-        expect(xrte.resultId).to_not be("")
-        expect(xrte.resultUrl).to_not be("")
-
-
-      end
-
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-  #end
+  end
 
+  it 'Test for response of Delete Identity' do
 
- # describe 'Delete Identity' do
-    it 'Test for response of Delete Identity' do
+    begin
+      attr = Xooa::Response::Attr.new('Test', 'Test', false)
+      attributes = Array.new.push(attr)
+      identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      begin
+      identityResponse = @instance.enroll_identity(identityRequest, '4000')
 
-        attr = Xooa::Response::Attr.new("Test", "Test", false)
-        attributes = Array.new.push(attr)
-        identityRequest = Xooa::Request::IdentityRequest.new("Kavi", "r", false, attributes)
+      response = @instance.delete_identity(identityResponse.id, '4000')
 
-        identityResponse = @instance.enrollIdentity(identityRequest,"4000")
+      expect(response).to be(true)
 
-        response = @instance.deleteIdentity(identityResponse.id, "4000")
+    rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
-        expect(response).to be(true)
+      expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-      rescue Xooa::Exception::XooaRequestTimeoutException => xrte
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-        expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
-
-        expect(xrte.resultId).to_not be_nil
-        expect(xrte.resultUrl).to_not be_nil
-
-        expect(xrte.resultId).to_not be("")
-        expect(xrte.resultUrl).to_not be("")
-      end
-
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-  #end
-
+  end
 end

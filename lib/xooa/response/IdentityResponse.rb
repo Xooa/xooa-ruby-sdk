@@ -67,15 +67,15 @@ module Xooa
       # display the details for the IdentityResponse
       def display
 
-        puts('Identity Name - #{@identity_name}')
-        puts('App Name - #{@app_name}')
-        puts('API Token - #{@api_token}')
-        puts('Id - #{@id}')
-        puts('App Id - #{@app_id}')
-        puts('Access - #{@access}')
-        puts('Can Manage Identities - #{@can_manage_identities}')
-        puts('createdAt - #{@created_at}')
-        puts('UpdatedAt - #{@updated_at}')
+        puts("Identity Name - #{@identity_name}")
+        puts("App Name - #{@app_name}")
+        puts("API Token - #{@api_token}")
+        puts("Id - #{@id}")
+        puts("App Id - #{@app_id}")
+        puts("Access - #{@access}")
+        puts("Can Manage Identities - #{@can_manage_identities}")
+        puts("createdAt - #{@created_at}")
+        puts("UpdatedAt - #{@updated_at}")
         puts('Attributes - ')
 
         if @attributes.respond_to?('each')
@@ -112,9 +112,9 @@ module Xooa
       # display the details for the Attr
       def display
 
-        puts('\t Name - #{@name}')
-        puts('\t Value - #{@value}')
-        puts('\t Ecert - #{@ecert}')
+        puts("\t Name - #{@name}")
+        puts("\t Value - #{@value}")
+        puts("\t Ecert - #{@ecert}")
       end
 
       # convert the request into json form

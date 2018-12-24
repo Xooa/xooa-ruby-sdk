@@ -59,9 +59,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -69,7 +69,7 @@ module Xooa
         query_params[:'timeout'] = timeout
 
         header_params = {}
-        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Authorization'] = "Bearer " + @api_token
         header_params[:'Content-Type'] = 'application/json'
 
         post_body = nil
@@ -80,8 +80,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -116,16 +116,16 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
         query_params[:'async'] = 'true'
 
         header_params = {}
-        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Authorization'] = "Bearer " + @api_token
         header_params[:'Content-Type'] = 'application/json'
 
         post_body = nil
@@ -136,8 +136,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -163,15 +163,15 @@ module Xooa
       # @param block_number block number for which data is required
       # @param timeout Request timeout in millisecond
       # @return BlockResponse
-      def get_block_by_number(block_number, timeout = "4000")
+      def get_block_by_number(block_number, timeout = '4000')
 
         path = '/block/{BlockNumber}'.sub('{' + 'BlockNumber' + '}', block_number.to_s)
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -179,7 +179,7 @@ module Xooa
         query_params[:'timeout'] = timeout
 
         header_params = {}
-        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Authorization'] = "Bearer " + @api_token
         header_params[:'Content-Type'] = 'application/json'
 
         post_body = nil
@@ -190,8 +190,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -230,16 +230,16 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
         query_params[:'async'] = 'true'
 
         header_params = {}
-        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Authorization'] = "Bearer " + @api_token
         header_params[:'Content-Type'] = 'application/json'
 
         post_body = nil
@@ -250,8 +250,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue XXooa::Exception::XooaApiException => xae
@@ -283,9 +283,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -293,7 +293,7 @@ module Xooa
         query_params[:'timeout'] = timeout
 
         header_params = {}
-        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Authorization'] = "Bearer " + @api_token
         header_params[:'Content-Type'] = 'application/json'
 
         post_body = nil
@@ -304,8 +304,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -406,16 +406,16 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
         query_params[:'async'] = 'true'
 
         header_params = {}
-        header_params[:'Authorization'] = 'Bearer ' + @api_token
+        header_params[:'Authorization'] = "Bearer " + @api_token
         header_params[:'Content-Type'] = 'application/json'
 
         post_body = nil
@@ -426,8 +426,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae

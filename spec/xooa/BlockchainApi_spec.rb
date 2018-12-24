@@ -27,155 +27,149 @@ require 'xooa'
 RSpec.describe Xooa::Api::BlockChainApi do
 
   before do
-    @instance = Xooa::XooaClient.new("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcGlLZXkiOiI3MlQ3WjRBLUFNUE1ER0ctTkhKMlMxUi1CRDJZTkpKIiwiQXBpU2VjcmV0IjoiMEk3WjFRU1NHblZ3WVhnIiwiUGFzc3BocmFzZSI6IjM3ZGJmYmI3YmM0NTE0NTBjODIyODg0NTM5YTQ3ZTY5IiwiaWF0IjoxNTQ0NzgzMzIwfQ.pcOdvHM0KTzf_b0vZoReSwsSM3SYicAOMSgacfy-mVg")
+    @instance = Xooa::XooaClient.new('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcGlLZXkiOiI3MlQ3WjRBLUFNUE1ER0ctTkhKMlMxUi1CRDJZTkpKIiwiQXBpU2VjcmV0IjoiMEk3WjFRU1NHblZ3WVhnIiwiUGFzc3BocmFzZSI6IjM3ZGJmYmI3YmM0NTE0NTBjODIyODg0NTM5YTQ3ZTY5IiwiaWF0IjoxNTQ0NzgzMzIwfQ.pcOdvHM0KTzf_b0vZoReSwsSM3SYicAOMSgacfy-mVg')
   end
 
-  #describe 'test an instance of XooaClient' do
   it 'should create an instance of XooaClient' do
     expect(@instance).to be_instance_of(Xooa::XooaClient)
   end
-  #end
 
-
-  #describe 'Current Block Test' do
   it 'Test the block data' do
 
     begin
+      currentBlock = @instance.get_current_block
 
-      currentBlock = @instance.getCurrentBlock
+      currentBlock.display
 
       expect(currentBlock).to be_instance_of(Xooa::Response::CurrentBlockResponse)
 
-      expect(currentBlock.blockNumber).to_not be_nil
-      expect(currentBlock.currentBlockHash).to_not be_nil
-      expect(currentBlock.previousBlockHash).to_not be_nil
-
-=begin
-        expect(currentBlock.blockNumber).to eq ("5")
-        expect(currentBlock.currentBlockHash).to eq ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9")
-        expect(currentBlock.previousBlockHash).to eq ("9JCVXpkI6ICc5RnIsIiN1IzUeyJhbGciOiJI")
-=end
+      expect(currentBlock.block_number).to_not be_nil
+      expect(currentBlock.current_block_hash).to_not be_nil
+      expect(currentBlock.previous_block_hash).to_not be_nil
 
     rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
       expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-      expect(xrte.resultId).to_not be_nil
-      expect(xrte.resultUrl).to_not be_nil
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-      expect(xrte.resultId).to_not be("")
-      expect(xrte.resultUrl).to_not be("")
-
-      #rescue XooaApiException => xae
-
-      #expect(xae).to be_instance_of(XooaApiException)
-
-      #expect(xae.errorMessage).to_not be_nil
-      #expect(xae.errorCode).to_not be_nil
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-
   end
-  #end
 
-
-  #describe 'Current Block Async Test' do
   it 'Test the response data' do
 
     begin
+      pendingResponse = @instance.get_current_block_async
 
-      pendingResponse = @instance.getCurrentBlockAsync
+      pendingResponse.display
 
       expect(pendingResponse).to be_instance_of(Xooa::Response::PendingTransactionResponse)
 
-      expect(pendingResponse.resultId).to_not be_nil
-      expect(pendingResponse.resultUrl).to_not be_nil
-
-=begin
-        expect(pendingResponse.resultId).to eq (response.resultId)
-        expect(pendingResponse.resultUrl).to eq(response.resultUrl)
-=end
-
-      #rescue XooaApiException => xae
-
-      #  expect(xae).to be_instance_of(XooaApiException)
-
-      #  expect(xae.errorMessage).to_not be_nil
-      #  expect(xae.errorCode).to_not be_nil
+      expect(pendingResponse.result_id).to_not be_nil
+      expect(pendingResponse.result_url).to_not be_nil
     end
-
   end
-  #end
 
-
-  #describe 'Block Data Test' do
   it 'Test the block data' do
 
     begin
+      blockData = @instance.get_block_by_number('10')
 
-      blockData = @instance.getBlockByNumber("10")
+      blockData.display
 
       expect(blockData).to be_instance_of(Xooa::Response::BlockResponse)
 
-      expect(blockData.previousHash).to_not be_nil
-      expect(blockData.dataHash).to_not be_nil
-      expect(blockData.blockNumber).to_not be_nil
-      expect(blockData.numberOfTransactions).to_not be_nil
-
-=begin
-        expect(blockData.previousHash).to eq(response.previousHash)
-        expect(blockData.dataHash).to eq(response.dataHash)
-        expect(blockData.blockNumber).to eq(response.blockNumber)
-        expect(blockData.numberOfTransactions).to eq(response.numberOfTransactions)
-=end
+      expect(blockData.previous_hash).to_not be_nil
+      expect(blockData.data_hash).to_not be_nil
+      expect(blockData.block_number).to_not be_nil
+      expect(blockData.number_of_transactions).to_not be_nil
 
     rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
       expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-      expect(xrte.resultId).to_not be_nil
-      expect(xrte.resultUrl).to_not be_nil
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-      expect(xrte.resultId).to_not be("")
-      expect(xrte.resultUrl).to_not be("")
-
-      #rescue XooaApiException => xae
-
-      # expect(xae).to be_instance_of(XooaApiException)
-
-      #expect(xae.errorMessage).to_not be_nil
-      #expect(xae.errorCode).to_not be_nil
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-
   end
-  #end
 
-
-  #describe 'Block Data Async Test' do
   it 'Test the response data' do
 
     begin
+      pendingResponse = @instance.get_block_by_number_async('10')
 
-      pendingResponse = @instance.getBlockByNumberAsync("10")
+      pendingResponse.display
 
       expect(pendingResponse).to be_instance_of(Xooa::Response::PendingTransactionResponse)
 
-      expect(pendingResponse.resultId).to_not be_nil
-      expect(pendingResponse.resultUrl).to_not be_nil
-
-=begin
-        expect(pendingResponse.resultId).to eq(response.resultId)
-        expect(pendingResponse.resultUrl).to eq(response.resultUrl)
-=end
-
-      #rescue XooaApiException => xae
-
-      #expect(xae).to be_instance_of(XooaApiException)
-
-      #expect(xae.errorMessage).to_not be_nil
-      #expect(xae.errorCode).to_not be_nil
+      expect(pendingResponse.result_id).to_not be_nil
+      expect(pendingResponse.result_url).to_not be_nil
     end
-
   end
-  #end
+
+  it 'Test the Transaction by TransactionId' do
+
+    begin
+      invokeResponse =  @instance.invoke('set', ['args1', '1'])
+
+      transactionData = @instance.get_transaction_by_transaction_id(invokeResponse.txn_id)
+
+      transactionData.display
+
+      expect(transactionData).to be_instance_of(Xooa::Response::TransactionResponse)
+
+      expect(transactionData.transaction_id).to_not be_nil
+      expect(transactionData.smart_contract).to_not be_nil
+      expect(transactionData.creator_msp_id).to_not be_nil
+      expect(transactionData.endorser_msp_id).to_not be_nil
+      expect(transactionData.transaction_type).to_not be_nil
+      expect(transactionData.read_set).to_not be_nil
+      expect(transactionData.write_set).to_not be_nil
+
+    rescue Xooa::Exception::XooaRequestTimeoutException => xrte
+
+      expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
+
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
+
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
+    end
+  end
+
+  it 'Test the Transaction by TransactionId' do
+
+    begin
+      invokeResponse =  @instance.invoke('set', ['args1', '1'])
+
+      pendingResponse = @instance.get_transaction_by_transaction_id_async(invokeResponse.txn_id)
+
+      pendingResponse.display
+
+      expect(pendingResponse).to be_instance_of(Xooa::Response::PendingTransactionResponse)
+
+      expect(pendingResponse.result_id).to_not be_nil
+      expect(pendingResponse.result_url).to_not be_nil
+    end
+  end
+
+  it 'Test Exception from API' do
+
+    begin
+      pendingResponse = @instance.get_block_by_number("latest")
+
+    rescue Xooa::Exception::XooaApiException => xae
+
+      expect(xae.error_code).to_not be_nil
+      expect(xae.error_message).to_not be_nil
+    end
+  end
 
 end

@@ -49,16 +49,16 @@ module Xooa
       #display TransactionResponse
       def display
 
-        puts('Transaction Id - #{@transaction_id}')
-        puts('Smart Contract - #{@smart_contract}')
-        puts('Creator MSP Id - #{@creator_msp_id}')
-        puts('Type - #{@transaction_type}')
-        puts('Created At - #{@created_at}')
+        puts("Transaction Id - #{@transaction_id}")
+        puts("Smart Contract - #{@smart_contract}")
+        puts("Creator MSP Id - #{@creator_msp_id}")
+        puts("Type - #{@transaction_type}")
+        puts("Created At - #{@created_at}")
 
         puts('Endorser MSP ID -')
         if @endorser_msp_id.respond_to?('each')
           @endorser_msp_id.each do |id|
-            puts('\t  #{id}')
+            puts("\t  #{id}")
           end
         end
 
@@ -98,8 +98,8 @@ module Xooa
       # display read set details
       def display
 
-        puts('\t Chaincode - #{@chaincode}')
-        puts('\t Sets -')
+        puts("\t Chaincode - #{@chaincode}")
+        puts("\t Sets -")
 
         if @sets.respond_to?('each')
           @sets.each do |set|
@@ -127,8 +127,8 @@ module Xooa
       # display the read sub set
       def display
 
-        puts('\t\t Key - #{@key}')
-        puts('\t\t Version -')
+        puts("\t\t Key - #{@key}")
+        puts("\t\t Version -")
         version.display
       end
     end
@@ -149,8 +149,8 @@ module Xooa
       # display version details
       def display
 
-        puts('\t\t\t Block Number - #{@block_number}')
-        puts('\t\t\t Transaction Number - #{@transaction_number}')
+        puts("\t\t\t Block Number - #{@block_number}")
+        puts("\t\t\t Transaction Number - #{@transaction_number}")
       end
     end
 
@@ -169,8 +169,8 @@ module Xooa
 
       # display the WriteSet
       def display
-        puts('\t Chaincode - #{@chaincode}')
-        puts('\t Sets -')
+        puts("\t Chaincode - #{@chaincode}")
+        puts("\t Sets -")
 
         if @sets.respond_to?('each')
           @sets.each do |set|
@@ -200,9 +200,9 @@ module Xooa
 
       # display the WriteSubSet
       def display
-        puts('\t\t Key - #{@key}')
-        puts('\t\t Value - #{@value}')
-        puts('\t\t Is Deleted - #{@is_delete}')
+        puts("\t\t Key - #{@key}")
+        puts("\t\t Value - #{@value}")
+        puts("\t\t Is Deleted - #{@is_delete}")
       end
     end
 

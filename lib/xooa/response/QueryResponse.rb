@@ -31,7 +31,7 @@ module Xooa
       # display the details for the QueryResponse
       def display
 
-        puts('Payload - #{@payload}')
+        puts("Payload - #{@payload}")
       end
     end
 

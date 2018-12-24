@@ -35,8 +35,8 @@ module Xooa
       # display the details for the PendingTransactionResponse
       def display
 
-        puts('Result Id - #{@result_id}')
-        puts('Result Url - #{@result_url}')
+        puts("Result Id - #{@result_id}")
+        puts("Result Url - #{@result_url}")
       end
     end
 

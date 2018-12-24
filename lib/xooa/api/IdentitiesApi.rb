@@ -58,9 +58,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -79,8 +79,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{statusCode}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{statusCode}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -140,9 +140,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -162,8 +162,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{statusCode}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{statusCode}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -197,7 +197,7 @@ module Xooa
               end
 
               identity_response = Xooa::Response::IdentityResponse.new(resp['IdentityName'],
-                                                                       response['AppName'],
+                                                                       resp['AppName'],
                                                                        resp['ApiToken'],
                                                                        resp['Id'],
                                                                        resp['AppId'],
@@ -241,9 +241,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -263,8 +263,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{statusCode}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{statusCode}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -328,9 +328,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'calling API #{url}'
+        logger.info "calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -348,8 +348,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -382,9 +382,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -403,8 +403,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -462,9 +462,9 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -483,8 +483,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{statusCode}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{statusCode}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae
@@ -543,10 +543,10 @@ module Xooa
 
         url = request_util.get_url(@app_url, path)
 
-        logger.info 'Calling API #{url}'
+        logger.info "Calling API #{url}"
 
         if debugging
-          logger.debug 'Calling API #{url}'
+          logger.debug "Calling API #{url}"
         end
 
         query_params = {}
@@ -565,8 +565,8 @@ module Xooa
           response, status_code = request_util.get_response(request)
 
           if debugging
-            logger.debug 'Status Code - #{status_code}'
-            logger.debug 'Response - #{response}'
+            logger.debug "Status Code - #{status_code}"
+            logger.debug "Response - #{response}"
           end
 
         rescue Xooa::Exception::XooaApiException => xae

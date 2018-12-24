@@ -39,7 +39,7 @@ module Xooa
     # @return XooaClient
     def initialize(api_token = '', app_url = 'https://api.xooa.com/api/v1')
 
-      @api_oken = api_token
+      @api_token = api_token
       @app_url = app_url
       @debugging = false
     end

@@ -24,7 +24,7 @@ require 'xooa/exception/XooaApiException'
 RSpec.describe Xooa::Api::QueryApi do
 
   before do
-    @instance = Xooa::XooaClient.new("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcGlLZXkiOiI3MlQ3WjRBLUFNUE1ER0ctTkhKMlMxUi1CRDJZTkpKIiwiQXBpU2VjcmV0IjoiMEk3WjFRU1NHblZ3WVhnIiwiUGFzc3BocmFzZSI6IjM3ZGJmYmI3YmM0NTE0NTBjODIyODg0NTM5YTQ3ZTY5IiwiaWF0IjoxNTQ0NzgzMzIwfQ.pcOdvHM0KTzf_b0vZoReSwsSM3SYicAOMSgacfy-mVg")
+    @instance = Xooa::XooaClient.new('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcGlLZXkiOiI3MlQ3WjRBLUFNUE1ER0ctTkhKMlMxUi1CRDJZTkpKIiwiQXBpU2VjcmV0IjoiMEk3WjFRU1NHblZ3WVhnIiwiUGFzc3BocmFzZSI6IjM3ZGJmYmI3YmM0NTE0NTBjODIyODg0NTM5YTQ3ZTY5IiwiaWF0IjoxNTQ0NzgzMzIwfQ.pcOdvHM0KTzf_b0vZoReSwsSM3SYicAOMSgacfy-mVg')
   end
 
   describe 'test an instance of XooaClient' do
@@ -33,50 +33,43 @@ RSpec.describe Xooa::Api::QueryApi do
     end
   end
 
-  #describe 'Query blockchain' do
   it 'Test for response on Querying blockchain' do
 
     begin
-      queryResponse = @instance.query("get", ["args1"], "4000")
+      queryResponse = @instance.query('get', ['args1'], '4000')
+
+      queryResponse.display
 
       expect(queryResponse).to be_instance_of(Xooa::Response::QueryResponse)
 
       expect(queryResponse.payload).to_not be_nil
 
-      expect(queryResponse.payload).to_not be("")
+      expect(queryResponse.payload).to_not be('')
 
     rescue Xooa::Exception::XooaRequestTimeoutException => xrte
 
       expect(xrte).to be_instance_of(Xooa::Exception::XooaRequestTimeoutException)
 
-      expect(xrte.resultId).to_not be_nil
-      expect(xrte.resultUrl).to_not be_nil
+      expect(xrte.result_id).to_not be_nil
+      expect(xrte.result_url).to_not be_nil
 
-      expect(xrte.resultId).to_not be("")
-      expect(xrte.resultUrl).to_not be("")
-
+      expect(xrte.result_id).to_not be('')
+      expect(xrte.result_url).to_not be('')
     end
-
   end
-  #end
 
-
-  #describe 'Query blockchain Async' do
   it 'Test for response on Querying blockchain' do
 
     begin
-      pendingResponse = @instance.queryAsync("get", ["args1"])
+      pendingResponse = @instance.query_async('get', ['args1'])
 
       expect(pendingResponse).to be_instance_of(Xooa::Response::PendingTransactionResponse)
 
-      expect(pendingResponse.resultId).to_not be_nil
-      expect(pendingResponse.resultUrl).to_not be_nil
+      expect(pendingResponse.result_id).to_not be_nil
+      expect(pendingResponse.result_url).to_not be_nil
 
-      expect(pendingResponse.resultId).to_not be("")
-      expect(pendingResponse.resultUrl).to_not be("")
+      expect(pendingResponse.result_id).to_not be('')
+      expect(pendingResponse.result_url).to_not be('')
     end
-
   end
-  #end
-
 end

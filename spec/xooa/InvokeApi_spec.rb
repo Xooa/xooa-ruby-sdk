@@ -36,7 +36,7 @@ RSpec.describe Xooa::Api::InvokeApi do
   it 'Test for response on Invoking blockchain' do
 
     begin
-      invokeResponse = @instance.invoke('set', ['args1', '4000'])
+      invokeResponse = @instance.invoke('set', ['args1', '4000'], '10000')
 
       expect(invokeResponse).to be_instance_of(Xooa::Response::InvokeResponse)
 

@@ -45,7 +45,7 @@ RSpec.describe Xooa::Api::ResultApi do
 
       sleep(4)
 
-      queryResponse = @instance.get_result_for_query(pendingResponse.result_id, '4000')
+      queryResponse = @instance.get_result_for_query(pendingResponse.result_id, '10000')
 
       expect(queryResponse).to be_instance_of(Xooa::Response::QueryResponse)
 
@@ -72,7 +72,7 @@ RSpec.describe Xooa::Api::ResultApi do
 
       sleep(4)
 
-      invokeResponse = @instance.get_result_for_invoke(pendingResponse.result_id, '4000')
+      invokeResponse = @instance.get_result_for_invoke(pendingResponse.result_id, '10000')
 
       expect(invokeResponse).to be_instance_of(Xooa::Response::InvokeResponse)
 
@@ -105,7 +105,7 @@ RSpec.describe Xooa::Api::ResultApi do
 
       sleep(4)
 
-      identityResponse = @instance.get_result_for_identities(pendingResponse.result_id, '4000')
+      identityResponse = @instance.get_result_for_identities(pendingResponse.result_id, '10000')
 
       expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -142,7 +142,7 @@ RSpec.describe Xooa::Api::ResultApi do
 
       sleep(4)
 
-      currentBlock = @instance.get_result_for_current_block(pendingResponse.result_id, '4000')
+      currentBlock = @instance.get_result_for_current_block(pendingResponse.result_id, '10000')
 
       expect(currentBlock).to be_instance_of(Xooa::Response::CurrentBlockResponse)
 
@@ -173,7 +173,7 @@ RSpec.describe Xooa::Api::ResultApi do
 
       sleep(4)
 
-      blockResponse = @instance.get_result_for_block_by_number(blockData.result_id, '4000')
+      blockResponse = @instance.get_result_for_block_by_number(blockData.result_id, '10000')
 
       expect(blockResponse).to be_instance_of(Xooa::Response::BlockResponse)
 

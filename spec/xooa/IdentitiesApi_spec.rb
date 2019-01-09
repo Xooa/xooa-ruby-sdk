@@ -37,7 +37,7 @@ RSpec.describe Xooa::Api::IdentitiesApi do
   it 'Test for response of Current Identity' do
 
     begin
-      identityResponse = @instance.current_identity('4000')
+      identityResponse = @instance.current_identity('10000')
 
       expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -68,7 +68,7 @@ RSpec.describe Xooa::Api::IdentitiesApi do
   it 'Test for response of Get All Identities' do
 
     begin
-      identityResponses = @instance.get_identities('4000')
+      identityResponses = @instance.get_identities('10000')
 
       identityResponse = identityResponses[0]
       expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
@@ -104,7 +104,7 @@ RSpec.describe Xooa::Api::IdentitiesApi do
       attributes = Array.new.push(attr)
       identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      identityResponse = @instance.enroll_identity(identityRequest, '4000')
+      identityResponse = @instance.enroll_identity(identityRequest, '10000')
 
       expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -154,9 +154,9 @@ RSpec.describe Xooa::Api::IdentitiesApi do
       attributes = Array.new.push(attr)
       identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      response = @instance.enroll_identity(identityRequest, '4000')
+      response = @instance.enroll_identity(identityRequest, '10000')
 
-      identityResponse = @instance.regenerate_identity_api_token(response.id, '4000')
+      identityResponse = @instance.regenerate_identity_api_token(response.id, '10000')
 
       expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -191,9 +191,9 @@ RSpec.describe Xooa::Api::IdentitiesApi do
       attributes = Array.new.push(attr)
       identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      response = @instance.enroll_identity(identityRequest, '4000')
+      response = @instance.enroll_identity(identityRequest, '10000')
 
-      identityResponse = @instance.get_identity(response.id, '4000')
+      identityResponse = @instance.get_identity(response.id, '10000')
 
       expect(identityResponse).to be_instance_of(Xooa::Response::IdentityResponse)
 
@@ -226,9 +226,9 @@ RSpec.describe Xooa::Api::IdentitiesApi do
       attributes = Array.new.push(attr)
       identityRequest = Xooa::Request::IdentityRequest.new('Kavi', 'r', false, attributes)
 
-      identityResponse = @instance.enroll_identity(identityRequest, '4000')
+      identityResponse = @instance.enroll_identity(identityRequest, '10000')
 
-      response = @instance.delete_identity(identityResponse.id, '4000')
+      response = @instance.delete_identity(identityResponse.id, '10000')
 
       expect(response).to be(true)
 

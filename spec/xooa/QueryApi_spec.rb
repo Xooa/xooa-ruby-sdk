@@ -36,7 +36,7 @@ RSpec.describe Xooa::Api::QueryApi do
   it 'Test for response on Querying blockchain' do
 
     begin
-      queryResponse = @instance.query('get', ['args1'], '4000')
+      queryResponse = @instance.query('get', ['args1'], '10000')
 
       queryResponse.display
 

@@ -37,7 +37,7 @@ RSpec.describe Xooa::Api::BlockChainApi do
   it 'Test the block data' do
 
     begin
-      currentBlock = @instance.get_current_block
+      currentBlock = @instance.get_current_block('10000')
 
       currentBlock.display
 
@@ -76,7 +76,7 @@ RSpec.describe Xooa::Api::BlockChainApi do
   it 'Test the block data' do
 
     begin
-      blockData = @instance.get_block_by_number('10')
+      blockData = @instance.get_block_by_number('10','10000')
 
       blockData.display
 
@@ -116,9 +116,9 @@ RSpec.describe Xooa::Api::BlockChainApi do
   it 'Test the Transaction by TransactionId' do
 
     begin
-      invokeResponse =  @instance.invoke('set', ['args1', '1'])
+      invokeResponse =  @instance.invoke('set', ['args1', '1'], '10000')
 
-      transactionData = @instance.get_transaction_by_transaction_id(invokeResponse.txn_id)
+      transactionData = @instance.get_transaction_by_transaction_id(invokeResponse.txn_id, '10000')
 
       transactionData.display
 
@@ -147,7 +147,7 @@ RSpec.describe Xooa::Api::BlockChainApi do
   it 'Test the Transaction by TransactionId' do
 
     begin
-      invokeResponse =  @instance.invoke('set', ['args1', '1'])
+      invokeResponse =  @instance.invoke('set', ['args1', '1'], '10000')
 
       pendingResponse = @instance.get_transaction_by_transaction_id_async(invokeResponse.txn_id)
 

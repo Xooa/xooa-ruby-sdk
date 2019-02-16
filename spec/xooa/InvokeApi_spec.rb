@@ -24,7 +24,7 @@ require 'xooa/exception/XooaApiException'
 RSpec.describe Xooa::Api::InvokeApi do
 
   before do
-    @instance = Xooa::XooaClient.new('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcGlLZXkiOiI3MlQ3WjRBLUFNUE1ER0ctTkhKMlMxUi1CRDJZTkpKIiwiQXBpU2VjcmV0IjoiMEk3WjFRU1NHblZ3WVhnIiwiUGFzc3BocmFzZSI6IjM3ZGJmYmI3YmM0NTE0NTBjODIyODg0NTM5YTQ3ZTY5IiwiaWF0IjoxNTQ0NzgzMzIwfQ.pcOdvHM0KTzf_b0vZoReSwsSM3SYicAOMSgacfy-mVg')
+    @instance = Xooa::XooaClient.new('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcGlLZXkiOiJDSlgyNTZQLUpKVk1WRFAtTktCVEZEMi1STUYwWE0zIiwiQXBpU2VjcmV0IjoiZHRzZ2NWVWpjS0poQkVTIiwiUGFzc3BocmFzZSI6ImM5MWE4OTMwM2E5ODdiMWRiNTNhOGU5NTlmMGVmZTE3IiwiaWF0IjoxNTUwMzEzOTczfQ.XUR-_XdYtjkSLllKIMgSsRy2hUDHKCWf9E-kBYMLIG8')
   end
 
   describe 'test an instance of XooaClient' do
